@@ -8,6 +8,7 @@ import {
   Employee,
   Leave,
   Payroll,
+  RunPayroll,
   SignIn,
   SignUp,
 } from "../pages";
@@ -26,6 +27,7 @@ export const MainRoute = () => {
           <Route path="overview" element={<Dashboard />} />
           <Route path="attendance" element={<Attendance />} />
           <Route path="payroll" element={<Payroll />} />
+          <Route path="payroll/run-payroll" element={<RunPayroll />} />
           <Route path="employee" element={<Employee />} />
           <Route path="employee/:id" element={<EmployeeDetails />} />
           <Route path="leave" element={<Leave />} />

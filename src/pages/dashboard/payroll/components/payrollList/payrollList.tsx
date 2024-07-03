@@ -8,8 +8,11 @@ import {
 import React from "react";
 import { PrimaryButton } from "../../../../../components";
 import { PayrollTable } from "../table";
+import { useNavigate } from "react-router-dom";
 
 export const PayrollList = () => {
+  const navigate = useNavigate();
+
   const data = [
     {
       title: "Total Payment", //total payment
@@ -37,7 +40,9 @@ export const PayrollList = () => {
         </div>
 
         <div>
-          <h1 className="font-bold text-3xl">Monthly Salary: Jul 01st - 31st</h1>
+          <h1 className="font-bold text-3xl">
+            Monthly Salary: Jul 01st - 31st
+          </h1>
           <p className="my-4">
             Please run payroll for july by 4:00 pm on Monday, June 30th. They
             will recieve funds by Tuesday, July 1st{" "}
@@ -47,17 +52,11 @@ export const PayrollList = () => {
             name="Initiate Payment"
             type="button"
             radius="lg"
+            onClick={() => navigate("/dashboard/payroll/run-payroll")}
           />
         </div>
       </div>
-      {/* <div className="flex justify-end mb-7">
-        <PrimaryButton
-          variant="filled"
-          name="Initiate Payment"
-          type="button"
-          radius="lg"
-        />
-      </div> */}
+
       <div className="">
         <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>
           {data.map((stat) => (
