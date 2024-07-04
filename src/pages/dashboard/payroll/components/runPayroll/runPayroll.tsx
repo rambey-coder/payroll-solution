@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { Stepper, Button, Group } from "@mantine/core";
 import { IconCalendarWeek, IconChevronLeft } from "@tabler/icons-react";
 import { EmployeeList } from "../steper/employeeList";
 import { Bonus } from "../steper/bonus";
 import { Review } from "../steper/review";
 import { PrimaryButton } from "../../../../../components/button/button";
+import { Success } from "../steper/success";
 
 export const RunPayroll = () => {
+  const navigate = useNavigate();
   const [setPageName] = useOutletContext<any>();
   const [active, setActive] = useState(0);
   const nextStep = () =>
-    setActive((current) => (current < 3 ? current + 1 : current));
+    setActive((current) => (current < 4 ? current + 1 : current));
+  if (active === 4) navigate("/dashboard/payroll");
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
@@ -60,7 +63,7 @@ export const RunPayroll = () => {
           <Stepper.Step
             label="Success"
             description="You succesfully run your payroll">
-            success
+            <Success />
           </Stepper.Step>
           <Stepper.Completed>
             Completed, click back button to get to previous step
@@ -78,7 +81,7 @@ export const RunPayroll = () => {
 
           <PrimaryButton
             type="button"
-            name="Next"
+            name={active === 4 ? "Finish Payroll" : "Next"}
             variant="filled"
             radius="sm"
             onClick={nextStep}

@@ -29,20 +29,25 @@ export const Review = () => {
 
         <div className="flex flex-col gap-8 mt-8">
           <div className="flex items-center justify-between">
-            <p>Total salary</p>
-            <p>$200,000</p>
+            <p className="text-[#495057] ">Total salary</p>
+            <p className="font-bold">$200,000</p>
           </div>
           <div className="flex items-center justify-between">
-            <p>Total Allowance</p>
-            <p>$20,000</p>
+            <p className="text-[#495057] ">Total Allowance</p>
+            <p className="font-bold">$20,000</p>
           </div>
           <div className="flex items-center justify-between">
-            <p>Total Deduction</p>
-            <p>$20,000</p>
+            <p className="text-[#495057] ">Total Deduction</p>
+            <p className="font-bold">$20,000</p>
           </div>
           <div className="flex items-center justify-between">
-            <p>Total Bonus</p>
-            <p>$20,000</p>
+            <p className="text-[#495057] ">Total Bonus</p>
+            <p className="font-bold">$20,000</p>
+          </div>
+          <hr />
+           <div className="flex items-center justify-between">
+            <p className="text-[#495057] ">Total Payroll</p>
+            <p className="font-bold text-xl">$270,000</p>
           </div>
         </div>
       </div>
