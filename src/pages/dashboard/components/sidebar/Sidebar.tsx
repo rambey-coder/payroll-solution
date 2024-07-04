@@ -29,7 +29,7 @@ const Sidebar: React.FC<Props> = ({ children, pageName }) => {
 
   const navigation = [
     { link: "/dashboard/overview", label: "Dashboard", icon: IconLayoutGrid },
-    { link: "/dashboard/job-desk", label: "Job Desk", icon: IconBriefcase },
+    { link: "/dashboard/designation", label: "Designation", icon: IconBriefcase },
     { link: "/dashboard/employee", label: "Employee", icon: IconUsers },
     { link: "/dashboard/leave", label: "Leave", icon: IconCalendarEvent },
     { link: "/dashboard/attendance", label: "Attendance", icon: IconUserCheck },

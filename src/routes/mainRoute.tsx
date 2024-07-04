@@ -5,6 +5,7 @@ import "@mantine/core/styles.css";
 import {
   Attendance,
   Dashboard,
+  Designation,
   Employee,
   Leave,
   Payroll,
@@ -31,6 +32,7 @@ export const MainRoute = () => {
           <Route path="employee" element={<Employee />} />
           <Route path="employee/:id" element={<EmployeeDetails />} />
           <Route path="leave" element={<Leave />} />
+          <Route path="designation" element={<Designation />} />
         </Route>
       </Routes>
     </ScrollToTop>
