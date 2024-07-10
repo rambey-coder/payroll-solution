@@ -33,10 +33,6 @@ export class EmployeeService {
         const existingPosition = await models.Position.findOne({
             where:{
                 id: req.body.positionId
-            },
-            include: {
-                model: [PositionModel],
-                attributes: ["id", "title"]
             }
            })
            if(!existingPosition){

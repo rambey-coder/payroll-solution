@@ -20,13 +20,20 @@ export class PositionService {
 
 
     getPositionById = async (req) => {
-        return await models.Position.findByPk(req.params.id);
+        return await models.Position.findByPk(req.params.id,
+            {include:{
+                model: DepartmentModel,
+                as: "department",
+                attributes: ["id", "departmentName"]
+            }}
+        );
     };
 
     getPositions = async() =>{
         return await models.Position.findAll({
             include:{
                 model: DepartmentModel,
+                as: "department",
                 attributes: ["id", "departmentName"]
             }
         })
