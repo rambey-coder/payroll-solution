@@ -142,14 +142,21 @@ export const EmployeeTable = () => {
       key={i}
       className="cursor-pointer">
       <Table.Td className="flex items-center gap-3">
-        <NameProfile
-          name={`${row?.user?.first_name} ${row?.user?.last_name}`}
-        />
-        <span>{`${row?.user?.first_name} ${row?.user?.last_name}`}</span>
+        <NameProfile name={`${row?.first_name} ${row?.last_name}`} />
+        <span className="capitalize">{`${row?.first_name} ${row?.last_name}`}</span>
       </Table.Td>
       <Table.Td>{Number(row.salary).toLocaleString()}</Table.Td>
       <Table.Td>
-        {row.status === "full_time" ? (
+        {row.active ? (
+          <Badge color="green" variant="light">
+            Active
+          </Badge>
+        ) : (
+          <Badge color="gray" variant="light">
+            Diasbled
+          </Badge>
+        )}
+        {/* {row.status === "full_time" ? (
           <Badge color="green" variant="light">
             FULL-TIME
           </Badge>
@@ -165,9 +172,9 @@ export const EmployeeTable = () => {
           <Badge color="gray" variant="light">
             INTERN
           </Badge>
-        )}
+        )} */}
       </Table.Td>
-      <Table.Td className="capitalize">{row.department}</Table.Td>
+      <Table.Td className="capitalize">{row.position.title}</Table.Td>
       <Table.Td>{row.role}</Table.Td>
     </Table.Tr>
   ));
@@ -201,9 +208,9 @@ export const EmployeeTable = () => {
         <Table.Tbody>
           <Table.Tr>
             <Th
-              sorted={sortBy === "name"}
+              sorted={sortBy === "first_name"}
               reversed={reverseSortDirection}
-              onSort={() => setSorting("name")}>
+              onSort={() => setSorting("first_name")}>
               Name
             </Th>
             <Th
@@ -213,16 +220,16 @@ export const EmployeeTable = () => {
               Salary
             </Th>
             <Th
-              sorted={sortBy === "status"}
+              sorted={sortBy === "active"}
               reversed={reverseSortDirection}
-              onSort={() => setSorting("status")}>
+              onSort={() => setSorting("active")}>
               Status
             </Th>
             <Th
-              sorted={sortBy === "department"}
+              sorted={sortBy === "position"}
               reversed={reverseSortDirection}
-              onSort={() => setSorting("department")}>
-              Department
+              onSort={() => setSorting("position")}>
+              Position
             </Th>
             <Th
               sorted={sortBy === "role"}

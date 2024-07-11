@@ -27,12 +27,12 @@ export const EmployeeStat = () => {
       <Paper bg={"#fefae0"} radius="md" p="md">
         <Group>
           <NameProfile
-            name={`${employeeDetails?.user?.first_name} ${employeeDetails?.user?.last_name}`}
+            name={`${employeeDetails?.first_name} ${employeeDetails?.last_name}`}
           />
 
           <div>
-            <Text fw={700} size="xl">
-              {`${employeeDetails?.user?.first_name} ${employeeDetails?.user?.last_name}`}
+            <Text fw={700} size="xl" className="capitalize">
+              {`${employeeDetails?.first_name} ${employeeDetails?.last_name}`}
             </Text>
             <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
               {employeeDetails?.role}
@@ -85,7 +85,7 @@ export const EmployeeStat = () => {
               Status
             </Text>
             <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-              {employeeDetails?.status}
+              {employeeDetails?.active ? "Active" : "Disabled"}
             </Text>
           </div>
         </Group>
@@ -107,10 +107,10 @@ export const EmployeeStat = () => {
 
           <div>
             <Text fw={700} size="xl">
-              Department
+              Position
             </Text>
             <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
-              {employeeDetails?.department}
+              {employeeDetails?.position.title}
             </Text>
           </div>
         </Group>
