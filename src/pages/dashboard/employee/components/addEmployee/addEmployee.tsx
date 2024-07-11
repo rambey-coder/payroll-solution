@@ -10,9 +10,9 @@ import {
   useAddEmployeeMutation,
   useGetAllEmployeeQuery,
 } from "../../../../../store/employee";
-import { useGetAllUserQuery } from "../../../../../store/auth";
 import { alert } from "../../../../../utils";
-import { departmentLists, statusList } from "./constants";
+import { statusList } from "./constants";
+import { useGetAllPositionQuery } from "../../../../../store/position/api";
 
 interface Props {
   opened: boolean;
@@ -23,8 +23,8 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
   const [addEmployee, { data, isError, isLoading, isSuccess }] =
     useAddEmployeeMutation();
 
-  const { data: allUser } = useGetAllUserQuery();
   const { refetch } = useGetAllEmployeeQuery();
+  const { data: positionList } = useGetAllPositionQuery();
 
   useEffect(() => {
     if (isSuccess) {
@@ -39,24 +39,34 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-      userId: "",
-      department: "",
+      first_name: "",
       role: "",
-      status: "",
       salary: "",
+      positionId: "",
+      email: "",
+      last_name: "",
+      phone: "",
+      address: "",
+      active: false,
     },
   });
 
   const transformedData =
-    allUser?.data.map((item) => ({
-      label: `${item.first_name} ${item.last_name}`,
+    positionList?.data?.map((item) => ({
+      label: `${item.title}`,
       value: item.id.toString(),
     })) || [];
 
   return (
-    <Modal opened={opened} onClose={close} centered title="Add Employee">
+    <Modal
+      opened={opened}
+      onClose={close}
+      size={"lg"}
+      centered
+      title="Add Employee">
       <form
-        onSubmit={form.onSubmit((values) => {
+        className="grid grid-cols-1 md:grid-cols-2 gap-x-4"
+        onSubmit={form.onSubmit(async (values) => {
           form.validate();
 
           const isValid = form.isValid();
@@ -65,34 +75,87 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
             const payload = {
               ...values,
               salary: Number(values.salary),
-              status: values.status.toString(),
+              active:
+                typeof values.active === "string"
+                  ? values.active === "true"
+                  : values.active,
             };
 
-            addEmployee(payload);
+            await addEmployee(payload);
           }
         })}>
         <div className="mb-3">
-          <SelectOption
-            label="Empoyee"
-            name="userId"
-            placeholder="Select a empoyee"
+          <TxtInput
+            label="First Name"
+            type="text"
+            id="first_name"
+            name="first_name"
+            placeholder="First Name"
             required
-            data={transformedData}
-            clearable={true}
-            onChange={(value) => form.setFieldValue("userId", value)}
+            key={form.key("first_name")}
+            {...form.getInputProps("first_name")}
+          />
+        </div>
+        <div className="mb-3">
+          <TxtInput
+            label="Last Name"
+            type="text"
+            id="last_name"
+            name="last_name"
+            placeholder="Last Name"
+            required
+            key={form.key("last_name")}
+            {...form.getInputProps("last_name")}
+          />
+        </div>
+        <div className="mb-3">
+          <TxtInput
+            label="Email"
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Email"
+            required
+            key={form.key("email")}
+            {...form.getInputProps("email")}
+          />
+        </div>
+        <div className="mb-3">
+          <TxtInput
+            label="Phone Number"
+            type="text"
+            id="phone"
+            name="phone"
+            placeholder="Phone Number"
+            required
+            key={form.key("phone")}
+            {...form.getInputProps("phone")}
+          />
+        </div>
+        <div className="mb-3">
+          <TxtInput
+            label="Address"
+            type="text"
+            id="address"
+            name="address"
+            placeholder="Address"
+            required
+            key={form.key("address")}
+            {...form.getInputProps("address")}
           />
         </div>
         <div className="mb-3">
           <SelectOption
-            label="Department"
-            name="department"
-            placeholder="Select a department"
+            label="Position"
+            name="positionId"
+            placeholder="Select position"
             required
-            data={departmentLists}
+            data={transformedData}
             clearable={true}
-            onChange={(value) => form.setFieldValue("department", value)}
+            onChange={(value) => form.setFieldValue("positionId", value)}
           />
         </div>
+
         <div className="mb-3">
           <TxtInput
             label="Role"
@@ -117,24 +180,24 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
             {...form.getInputProps("salary")}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-7 col-span-1 md:col-span-2">
           <SelectOption
             label="Status"
-            name="status"
+            name="active"
             placeholder="Select status"
             required
             data={statusList}
             clearable={true}
-            onChange={(value) => form.setFieldValue("status", value)}
+            onChange={(value) => form.setFieldValue("active", value)}
           />
         </div>
         <PrimaryButton
           fullWidth
           color="#9263f8"
-          radius="xl"
-          name="Add Employee"
+          radius="md"
+          name="Save"
           type="submit"
-          variant="outline"
+          variant="filled"
           loading={isLoading}
         />
       </form>

@@ -15,6 +15,7 @@ import {
 } from "../pages";
 import { Auth } from "./auth";
 import { EmployeeDetails } from "../pages/dashboard/employee/components";
+import Position from "../pages/dashboard/position/position";
 
 export const MainRoute = () => {
   return (
@@ -33,6 +34,7 @@ export const MainRoute = () => {
           <Route path="employee/:id" element={<EmployeeDetails />} />
           <Route path="leave" element={<Leave />} />
           <Route path="designation" element={<Designation />} />
+          <Route path="position" element={<Position />} />
         </Route>
       </Routes>
     </ScrollToTop>

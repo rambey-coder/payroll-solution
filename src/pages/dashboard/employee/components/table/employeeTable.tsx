@@ -136,7 +136,7 @@ export const EmployeeTable = () => {
 
   const navigate = useNavigate();
 
-  const rows = sortedData.map((row, i) => (
+  const rows = sortedData?.map((row, i) => (
     <Table.Tr
       onClick={() => navigate(`/dashboard/employee/${row.id}`, { state: row })}
       key={i}
@@ -233,7 +233,7 @@ export const EmployeeTable = () => {
           </Table.Tr>
         </Table.Tbody>
         <Table.Tbody>
-          {rows.length > 0 ? (
+          {rows?.length > 0 ? (
             rows
           ) : (
             <Table.Tr>

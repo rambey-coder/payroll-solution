@@ -1,30 +1,30 @@
-import { useDisclosure } from "@mantine/hooks";
 import React, { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import { PrimaryButton } from "../../../components";
-import { AddDesignation } from "./components/addDesignation";
+import { useDisclosure } from "@mantine/hooks";
+import AddPosition from "./components/addPosition";
+import { useGetAllPositionQuery } from "../../../store/position";
 import { Table, Group, ActionIcon, rem } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
-import { useGetAllDepartmentQuery } from "../../../store/designation";
 
-export const Designation = () => {
+function Position() {
   const [setPageName] = useOutletContext<any>();
   const [opened, { open, close }] = useDisclosure(false);
-  const { data } = useGetAllDepartmentQuery();
-
-  const department = data?.data;
+  const { data } = useGetAllPositionQuery();
 
   useEffect(() => {
-    setPageName("Designation");
+    setPageName("Position");
   }, []);
 
-  const rows = department?.map((item) => (
+  const position = data?.data;
+  const rows = position?.map((item) => (
     <Table.Tr key={item.id}>
-      <Table.Td>{item.departmentName}</Table.Td>
+      <Table.Td>{item.department.departmentName}</Table.Td>
+      <Table.Td>{item.title}</Table.Td>
 
-      <Table.Td>{item.departmentDescrition || "--"}</Table.Td>
+      <Table.Td>{item.salary || "--"}</Table.Td>
+      <Table.Td>{item.description}</Table.Td>
       <Table.Td>{item.createdAt}</Table.Td>
-      <Table.Td>{0}</Table.Td>
 
       <Table.Td>
         <Group gap={0} justify="flex-end">
@@ -47,14 +47,14 @@ export const Designation = () => {
 
   return (
     <div>
-      <AddDesignation opened={opened} close={close} />
+      <AddPosition opened={opened} close={close} />
       <div className="flex justify-end w-full">
         <PrimaryButton
           variant="filled"
           radius="md"
           type="button"
           onClick={open}
-          name="Add Designation"
+          name="Add Position"
         />
       </div>
 
@@ -64,10 +64,10 @@ export const Designation = () => {
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>Department</Table.Th>
+                <Table.Th>Title</Table.Th>
+                <Table.Th>Salary</Table.Th>
                 <Table.Th>Description</Table.Th>
-                <Table.Th>Date Created</Table.Th>
-                <Table.Th>Number of employee</Table.Th>
-                {/* <Table.Th>Status</Table.Th> */}
+                <Table.Th>Date</Table.Th>
                 <Table.Th />
               </Table.Tr>
             </Table.Thead>
@@ -77,4 +77,6 @@ export const Designation = () => {
       </div>
     </div>
   );
-};
+}
+
+export default Position;

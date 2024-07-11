@@ -32,7 +32,7 @@ export interface DatePickerProps {
 export interface ISelect {
   label: string;
   placeholder: string;
-  data: { value: string; label: string }[];
+  data: { value: number | string; label: string }[];
   defaultValue?: string;
   clearable: boolean;
   onChange?: (value: string | any) => void;
