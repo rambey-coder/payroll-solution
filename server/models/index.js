@@ -20,11 +20,20 @@ PositionModel.belongsTo(DepartmentModel, {
     as: "department"
 })
 
-
 DepartmentModel.hasMany(PositionModel, {
     foreignKey: 'departmentId',
     as: 'positions'
 });
+
+PositionModel.hasMany(EmployeeModel,
+    {foreignKey: 'positionId',
+    as: 'employees'}
+)
+
+EmployeeModel.belongsTo(PositionModel,
+    {foreignKey: 'positionId',
+    as: 'position'}
+)
 
 const models = {
     User: UserModel,

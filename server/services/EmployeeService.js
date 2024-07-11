@@ -17,13 +17,20 @@ export class EmployeeService {
 
 
     getEmployeeById = async (req) => {
-        return await models.Employee.findByPk(req.params.id);
+        return await models.Employee.findByPk(req.params.id,{
+            include: {
+                model: PositionModel,
+                as:"position",
+                attributes: ["id", "title"]
+            }
+        });
     };
 
     getEmployees = async() =>{
         return await models.Employee.findAll({
             include: {
-                model: [PositionModel],
+                model: PositionModel,
+                as:"position",
                 attributes: ["id", "title"]
             }
         })

@@ -21,10 +21,6 @@
  *           type: string
  *         active:
  *           type: bool
- *         salary:
- *           type: integer
- *         role:
- *           type: string
  */
 
 /**
