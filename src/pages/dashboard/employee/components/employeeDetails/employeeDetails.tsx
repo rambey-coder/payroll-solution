@@ -10,7 +10,6 @@ import {
   IconTrash,
   IconEdit,
 } from "@tabler/icons-react";
-import { SimpleGrid, Paper, Text } from "@mantine/core";
 import { AttendanceTable } from "./components";
 import { ButtonWithIcon, Tab } from "../../../../../components";
 import { ITab } from "../../../../../components/tab/interface";
