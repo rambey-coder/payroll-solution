@@ -1,27 +1,31 @@
-import { IUser } from "../auth/interface";
 
 export interface IEmployeePayLoad {
-  userId: string;
-  department: string;
   role: string;
-  status: string;
   salary: number;
+  positionId: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  address: string;
+  active: boolean;
 }
-
-// export interface IEmployeeRes {
-// }
-
 export interface EmployeeData {
   id: number;
-  name: string;
+  phone: string;
+  address: string;
+  email: string;
   department: string;
   role: string;
-  status: string;
+  active: boolean;
   salary?: number;
   createdAt?: string;
   updatedAt?: string;
-  userId?: string;
-  user?: IUser;
+  first_name: string;
+  last_name: string;
+  positionId: number;
+  position: { id: number; title: string };
+  sex: string;
 }
 
 export interface IEmployeeRes {

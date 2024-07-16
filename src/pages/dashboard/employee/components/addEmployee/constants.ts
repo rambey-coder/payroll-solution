@@ -19,19 +19,23 @@ export const departmentLists = [
 
 export const statusList = [
   {
-    label: "Full Time",
-    value: "full_time",
+    label: "Active",
+    value: 'true',
   },
   {
-    label: "Part Time",
-    value: "part_time",
+    label: "Disabled",
+    value: 'false',
   },
-  {
-    label: "Contract",
-    value: "contract",
-  },
-  {
-    label: "Intern",
-    value: "intern",
-  },
+  // {
+  //   label: "Part Time",
+  //   value: "part_time",
+  // },
+  // {
+  //   label: "Contract",
+  //   value: "contract",
+  // },
+  // {
+  //   label: "Intern",
+  //   value: "intern",
+  // },
 ];

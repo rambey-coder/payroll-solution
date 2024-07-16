@@ -24,7 +24,8 @@ export const NameProfile: React.FC<Props> = ({ name }) => {
   };
 
   const getName = (name: string) => {
-    const nameParts = name?.split(" ");
+    const transformName = name.toUpperCase();
+    const nameParts = transformName?.split(" ");
     const firstInitial = nameParts?.[0]?.charAt(0) || "";
     const lastInitial = nameParts?.[1]?.charAt(0) || "";
     return firstInitial + lastInitial;

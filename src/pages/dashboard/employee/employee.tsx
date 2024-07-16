@@ -23,7 +23,7 @@ export const Employee = () => {
     {
       title: "Total Employee",
       icon: IconUsersPlus,
-      value: data?.data.length,
+      value: data?.data?.length,
     },
     {
       title: "Present",

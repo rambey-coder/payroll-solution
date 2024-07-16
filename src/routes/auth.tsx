@@ -7,6 +7,7 @@ export const Auth = () => {
   const [pageName, setPageName] = React.useState("");
 
   const auth = sessionStorage.getItem("access_token");
+
   return auth ? (
     <Sidebar pageName={pageName}>
       <Outlet context={[setPageName]} />

@@ -1,5 +1,6 @@
 import React from "react";
-import { ISelect, InputVariantProps } from "./interface";
+import { DatePickerProps, ISelect, InputVariantProps } from "./interface";
+import { DatePickerInput } from "@mantine/dates";
 import { TextInput, Textarea, Select } from "@mantine/core";
 import "./style.scss";
 
@@ -92,3 +93,33 @@ export const SelectOption: React.FC<ISelect> = ({
     />
   );
 };
+
+
+
+export const DatePicker: React.FC<DatePickerProps> = ({
+  label,
+  placeholder,
+  required,
+  value,
+  onChange,
+  disabled,
+  error,
+  name,
+  id,
+  ...rest
+}) => (
+  <DatePickerInput
+    label={label}
+    placeholder={placeholder}
+    required={required}
+    value={value}
+    onChange={onChange}
+    radius="md"
+    size="md"
+    disabled={disabled}
+    error={error}
+    name={name}
+    id={id}
+    {...rest}
+  />
+);

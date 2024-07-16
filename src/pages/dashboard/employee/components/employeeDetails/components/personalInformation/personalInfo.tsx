@@ -1,8 +1,13 @@
 import React from "react";
 import { TxtInput } from "../../../../../../../components";
 import { useSelector } from "react-redux";
+import { IEmployeeRes } from "../../../../../../../store/employee/interface";
 
-export const PersonalInfo = () => {
+interface Props {
+  data: IEmployeeRes | any;
+}
+
+export const PersonalInfo: React.FC<Props> = ({ data }) => {
   const { employeeDetails } = useSelector(
     (state: any) => state.employee.employee
   );
@@ -17,21 +22,21 @@ export const PersonalInfo = () => {
         <TxtInput
           name="firstName"
           label="First Name"
-          value={userInfo?.first_name}
+          value={data?.first_name}
           className="w-[45%]"
           readOnly
         />
         <TxtInput
           name="lastName"
           label="Last Name"
-          value={userInfo?.last_name}
+          value={data?.last_name}
           readOnly
           className="w-[45%]"
         />
         <TxtInput
           name="email"
           label="Email Address"
-          value={userInfo?.email}
+          value={data?.email}
           className="w-[45%]"
           readOnly
         />
@@ -39,7 +44,7 @@ export const PersonalInfo = () => {
           name="address"
           className="w-[45%]"
           label="Address"
-          value=""
+          value={data?.address}
           readOnly
         />
         <TxtInput

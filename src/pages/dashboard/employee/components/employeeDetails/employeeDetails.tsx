@@ -10,16 +10,21 @@ import {
   IconTrash,
   IconEdit,
 } from "@tabler/icons-react";
-import { SimpleGrid, Paper, Text } from "@mantine/core";
 import { AttendanceTable } from "./components";
 import { ButtonWithIcon, Tab } from "../../../../../components";
 import { ITab } from "../../../../../components/tab/interface";
 import { PersonalInfo } from "./components/personalInformation/personalInfo";
 import { EmploymentInfo } from "./components/employmentInfo/employmentInfo";
+import { Leave } from "./components/leave/leave";
+import { useGetEmployeeQuery } from "../../../../../store/employee";
 
 export const EmployeeDetails = () => {
   const { id } = useParams<string>();
   const [setPageName] = useOutletContext<any>();
+
+  const { data } = useGetEmployeeQuery(id);
+
+  const employeeData = data?.data;
 
   useEffect(() => {
     setPageName("Employee Details");
@@ -36,30 +41,30 @@ export const EmployeeDetails = () => {
     },
   ];
 
-  const data = [
-    {
-      title: "Average Working Hour",
-      icon: IconClock,
-      value: "13,456",
-    },
-    { title: "Average In Time", icon: IconLogin, value: "4,145", diff: -13 },
-    {
-      title: "Average Out Time",
-      icon: IconLogout,
-      value: "745",
-    },
-    {
-      title: "Average Break Time",
-      icon: IconCoffee,
-      value: "188",
-    },
-  ];
+  // const data = [
+  //   {
+  //     title: "Average Working Hour",
+  //     icon: IconClock,
+  //     value: "13,456",
+  //   },
+  //   { title: "Average In Time", icon: IconLogin, value: "4,145", diff: -13 },
+  //   {
+  //     title: "Average Out Time",
+  //     icon: IconLogout,
+  //     value: "745",
+  //   },
+  //   {
+  //     title: "Average Break Time",
+  //     icon: IconCoffee,
+  //     value: "188",
+  //   },
+  // ];
 
   const tabs: ITab[] = [
     {
-      label: "Personal Information", //contatct, email add, home add, phone no.,  gendewr
+      label: "Personal Information", //contatct, email add, home add, phone no.,  gender
       value: "personal_info",
-      content: <PersonalInfo />,
+      content: <PersonalInfo data={employeeData} />,
     },
     {
       label: "Employment Details", //role, position, department, employment type
@@ -69,10 +74,10 @@ export const EmployeeDetails = () => {
     {
       label: "Leave",
       value: "leave",
-      content: <div>Third tab content</div>,
+      content: <Leave />,
     },
     {
-      label: "Salary", //amount, payment date, bonus => being able to add allowances & deduction {allowance name, amount} & bonus 
+      label: "Salary", //amount, payment date, bonus => being able to add allowances & deduction {allowance name, amount} & bonus
       value: "salary",
       content: <div>Third tab content</div>,
     },
@@ -121,7 +126,7 @@ export const EmployeeDetails = () => {
         <EmployeeStat />
       </div>
 
-      <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} className="my-8">
+      {/* <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} className="my-8">
         {data.map((stat) => (
           <Paper withBorder p="md" radius="md" key={stat.title}>
             <div className="flex flex-col items-center gap-4">
@@ -135,7 +140,7 @@ export const EmployeeDetails = () => {
             </div>
           </Paper>
         ))}
-      </SimpleGrid>
+      </SimpleGrid> */}
 
       <div className="mt-7">
         <Tab defaultValue="personal_info" tabs={tabs} />
