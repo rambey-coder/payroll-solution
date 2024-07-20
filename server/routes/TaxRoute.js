@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { PositionController } from "../controllers/PositionController.js";
+import { TaxController } from "../controllers/TaxController.js";
 
-const positionRouter = Router()
+const taxRouter = Router()
 
 /**
  * @swagger
- * /position:
+ * /tax:
  *   post:
- *     summary: Creates an Position
- *     tags: [Position]
+ *     summary: Creates a Tax
+ *     tags: [Tax]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Tax'
  *                 
  *     responses:
  *       400:
@@ -21,7 +21,7 @@ const positionRouter = Router()
  *       500:
  *          description: internal server error
  *       200:
- *         description: Position successfully created
+ *         description: Tax successfully created
  *         content:
  *           application/json:
  *             schema:
@@ -29,21 +29,21 @@ const positionRouter = Router()
  *            
  *          
  */
-positionRouter.post('/', PositionController.createPosition);
+taxRouter.post('/', TaxController.createTax);
 
 
 
 /**
  * @swagger
- * /position/{id}:
+ * /tax/{id}:
  *   get:
- *     summary: Get an Position
- *     tags: [Position]
+ *     summary: Get an Tax
+ *     tags: [Tax]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Tax'
  *                 
  *     responses:
  *       400:
@@ -51,29 +51,29 @@ positionRouter.post('/', PositionController.createPosition);
  *       500:
  *          description: internal server error
  *       200:
- *         description: returns aan Position
+ *         description: returns aan Tax
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               items:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Tax'
  *            
  *          
  */
-positionRouter.get("/:id", PositionController.getPositionById)
+taxRouter.get("/:id", TaxController.getTaxById)
 
 /**
  * @swagger
- * /position:
+ * /tax:
  *   get:
- *     summary: Get all Positions
- *     tags: [Position]
+ *     summary: Get all Taxs
+ *     tags: [Tax]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Tax'
  *                 
  *     responses:
  *       400:
@@ -81,18 +81,18 @@ positionRouter.get("/:id", PositionController.getPositionById)
  *       500:
  *          description: internal server error
  *       200:
- *         description: returns aan Position
+ *         description: returns aan Tax
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Tax'
  *            
  *          
  */
-positionRouter.get("/", PositionController.getPositions)
+taxRouter.get("/", TaxController.getTaxs)
 
 
-export default positionRouter
+export default taxRouter
 

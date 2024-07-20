@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { PositionController } from "../controllers/PositionController.js";
+import { IncentiveController } from "../controllers/IncentitveController.js";
 
-const positionRouter = Router()
+const incentiveRouter = Router()
 
 /**
  * @swagger
- * /position:
+ * /incentive:
  *   post:
- *     summary: Creates an Position
- *     tags: [Position]
+ *     summary: Creates a Incentive
+ *     tags: [Incentive]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Incentive'
  *                 
  *     responses:
  *       400:
@@ -21,7 +21,7 @@ const positionRouter = Router()
  *       500:
  *          description: internal server error
  *       200:
- *         description: Position successfully created
+ *         description: Incentive successfully created
  *         content:
  *           application/json:
  *             schema:
@@ -29,21 +29,21 @@ const positionRouter = Router()
  *            
  *          
  */
-positionRouter.post('/', PositionController.createPosition);
+incentiveRouter.post('/', IncentiveController.createIncentive);
 
 
 
 /**
  * @swagger
- * /position/{id}:
+ * /incentive/{id}:
  *   get:
- *     summary: Get an Position
- *     tags: [Position]
+ *     summary: Get an Incentive
+ *     tags: [Incentive]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Incentive'
  *                 
  *     responses:
  *       400:
@@ -51,29 +51,29 @@ positionRouter.post('/', PositionController.createPosition);
  *       500:
  *          description: internal server error
  *       200:
- *         description: returns aan Position
+ *         description: returns aan Incentive
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               items:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Incentive'
  *            
  *          
  */
-positionRouter.get("/:id", PositionController.getPositionById)
+incentiveRouter.get("/:id", IncentiveController.getIncentiveById)
 
 /**
  * @swagger
- * /position:
+ * /incentive:
  *   get:
- *     summary: Get all Positions
- *     tags: [Position]
+ *     summary: Get all Incentives
+ *     tags: [Incentive]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Incentive'
  *                 
  *     responses:
  *       400:
@@ -81,18 +81,18 @@ positionRouter.get("/:id", PositionController.getPositionById)
  *       500:
  *          description: internal server error
  *       200:
- *         description: returns aan Position
+ *         description: returns aan Incentive
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/Incentive'
  *            
  *          
  */
-positionRouter.get("/", PositionController.getPositions)
+incentiveRouter.get("/", IncentiveController.getIncentives)
 
 
-export default positionRouter
+export default incentiveRouter
 

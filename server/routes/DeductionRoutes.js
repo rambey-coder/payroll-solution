@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { PositionController } from "../controllers/PositionController.js";
+import { DeductionController } from "../controllers/DeductionController.js";
 
-const positionRouter = Router()
+const deductionRouter = Router()
 
 /**
  * @swagger
- * /position:
+ * /deduction:
  *   post:
- *     summary: Creates an Position
- *     tags: [Position]
+ *     summary: Creates a Deduction
+ *     tags: [Deduction]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/deduction'
  *                 
  *     responses:
  *       400:
@@ -21,7 +21,7 @@ const positionRouter = Router()
  *       500:
  *          description: internal server error
  *       200:
- *         description: Position successfully created
+ *         description: Deduction successfully created
  *         content:
  *           application/json:
  *             schema:
@@ -29,21 +29,21 @@ const positionRouter = Router()
  *            
  *          
  */
-positionRouter.post('/', PositionController.createPosition);
+deductionRouter.post('/', DeductionController.createDeduction);
 
 
 
 /**
  * @swagger
- * /position/{id}:
+ * /deduction/{id}:
  *   get:
- *     summary: Get an Position
- *     tags: [Position]
+ *     summary: Get an Deduction
+ *     tags: [Deduction]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/deduction'
  *                 
  *     responses:
  *       400:
@@ -51,29 +51,29 @@ positionRouter.post('/', PositionController.createPosition);
  *       500:
  *          description: internal server error
  *       200:
- *         description: returns aan Position
+ *         description: returns aan Deduction
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               items:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/deduction'
  *            
  *          
  */
-positionRouter.get("/:id", PositionController.getPositionById)
+deductionRouter.get("/:id", DeductionController.getDeductionById)
 
 /**
  * @swagger
- * /position:
+ * /deduction:
  *   get:
- *     summary: Get all Positions
- *     tags: [Position]
+ *     summary: Get all Deductions
+ *     tags: [Deduction]
  *     requestBody:
  *        content:
  *          application/json:
  *             schema:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/deduction'
  *                 
  *     responses:
  *       400:
@@ -81,18 +81,18 @@ positionRouter.get("/:id", PositionController.getPositionById)
  *       500:
  *          description: internal server error
  *       200:
- *         description: returns aan Position
+ *         description: returns aan Deduction
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Position'
+ *                 $ref: '#/components/schemas/deduction'
  *            
  *          
  */
-positionRouter.get("/", PositionController.getPositions)
+deductionRouter.get("/", DeductionController.getDeductions)
 
 
-export default positionRouter
+export default deductionRouter
 

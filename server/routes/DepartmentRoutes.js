@@ -29,7 +29,7 @@ const departmentRouter = Router()
  *            
  *          
  */
-departmentRouter.post('/department', DepartmentController.createDepartment);
+departmentRouter.post('/', DepartmentController.createDepartment);
 
 
 
@@ -61,7 +61,7 @@ departmentRouter.post('/department', DepartmentController.createDepartment);
  *            
  *          
  */
-departmentRouter.get("/department/:id", DepartmentController.getDepartmentById)
+departmentRouter.get("/:id", DepartmentController.getDepartmentById)
 
 /**
  * @swagger
@@ -91,7 +91,7 @@ departmentRouter.get("/department/:id", DepartmentController.getDepartmentById)
  *            
  *          
  */
-departmentRouter.get("/department", DepartmentController.getDepartments)
+departmentRouter.get("/", DepartmentController.getDepartments)
 
 
 export default departmentRouter

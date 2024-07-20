@@ -61,7 +61,7 @@ userRouter.post('/login', UserController.login);
  *            
  *          
  */
-userRouter.post('/user', UserController.createUser);
+userRouter.post('/', UserController.createUser);
 
 
 /**
@@ -98,7 +98,7 @@ userRouter.post('/user', UserController.createUser);
  *            
  *          
  */
-userRouter.get("/user/:id", UserController.getUserById)
+userRouter.get("/:id", UserController.getUserById)
 
 /**
  * @swagger
@@ -123,7 +123,7 @@ userRouter.get("/user/:id", UserController.getUserById)
  *            
  *          
  */
-userRouter.get("/user", UserController.getUsers)
+userRouter.get("/", UserController.getUsers)
 
 export default userRouter
 

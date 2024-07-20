@@ -92,7 +92,7 @@ const data = [
     name: "Athena Weissnat",
     status: "PENDING",
     department: "Engineering",
-    amount: "£300",
+    amount: "₦300",
   },
 
   {
@@ -100,35 +100,35 @@ const data = [
     name: "John Doe",
     status: "COMPLETED",
     department: "Marketing",
-    amount: "£500",
-  },
+    amount: "₦500",
+  }
   {
     date: "12-05-24",
     name: "Jane Smith",
     status: "PENDING",
     department: "Sales",
-    amount: "£400",
+    amount: "₦400",
   },
   {
     date: "12-06-24",
     name: "Bob Johnson",
     status: "COMPLETED",
     department: "Engineering",
-    amount: "£600",
+    amount: "₦600",
   },
   {
     date: "12-07-24",
     name: "Alice Williams",
     status: "PENDING",
     department: "HR",
-    amount: "£700",
+    amount: "₦700",
   },
   {
     date: "12-08-24",
     name: "Charlie Brown",
     status: "COMPLETED",
     department: "Finance",
-    amount: "£800",
+    amount: "₦800",
   },
 ];
 

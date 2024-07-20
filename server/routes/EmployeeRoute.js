@@ -29,7 +29,7 @@ const employeeRouter = Router()
  *            
  *          
  */
-employeeRouter.post('/employee', EmployeeController.createEmployee);
+employeeRouter.post('/', EmployeeController.createEmployee);
 
 
 /**
@@ -60,7 +60,7 @@ employeeRouter.post('/employee', EmployeeController.createEmployee);
  *            
  *          
  */
-employeeRouter.post('/employee/:id', EmployeeController.updateEmployee);
+employeeRouter.post('/:id', EmployeeController.updateEmployee);
 
 
 /**
@@ -91,7 +91,7 @@ employeeRouter.post('/employee/:id', EmployeeController.updateEmployee);
  *            
  *          
  */
-employeeRouter.post('/employee/status/:id', EmployeeController.updateEmployeeStatus);
+employeeRouter.post('/status/:id', EmployeeController.updateEmployeeStatus);
 
 /**
  * @swagger
@@ -121,7 +121,7 @@ employeeRouter.post('/employee/status/:id', EmployeeController.updateEmployeeSta
  *            
  *          
  */
-employeeRouter.get("/employee/:id", EmployeeController.getEmployeeById)
+employeeRouter.get("/:id", EmployeeController.getEmployeeById)
 
 /**
  * @swagger
@@ -151,7 +151,7 @@ employeeRouter.get("/employee/:id", EmployeeController.getEmployeeById)
  *            
  *          
  */
-employeeRouter.get("/employee", EmployeeController.getEmployees)
+employeeRouter.get("/", EmployeeController.getEmployees)
 
 
 export default employeeRouter

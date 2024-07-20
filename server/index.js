@@ -10,6 +10,9 @@ import userRouter from './routes/UserRoute.js';
 import employeeRouter from './routes/EmployeeRoute.js';
 import departmentRouter from './routes/DepartmentRoutes.js';
 import positionRouter from './routes/PositionRoute.js';
+import taxRouter from './routes/TaxRoute.js';
+import incentiveRouter from './routes/IncentiveRoute.js';
+import deductionRouter from './routes/DeductionRoutes.js';
 
 
 dotenv.config();
@@ -88,10 +91,13 @@ app.use((req, res, next) => {
 
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 
-  app.use("/api/v1", userRouter)
-  app.use("/api/v1", employeeRouter)
-  app.use("/api/v1", departmentRouter)
-  app.use("/api/v1", positionRouter)
+  app.use("/api/v1/user", userRouter)
+  app.use("/api/v1/employee", employeeRouter)
+  app.use("/api/v1/department", departmentRouter)
+  app.use("/api/v1/position", positionRouter)
+  app.use("/api/v1/tax", taxRouter)
+  app.use("/api/v1/incentive", incentiveRouter)
+  app.use("/api/v1/deduction", deductionRouter)
 
   const port = 8080;
 
