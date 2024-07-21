@@ -9,10 +9,12 @@ import bodyParser from 'body-parser';
 import userRouter from './routes/UserRoute.js';
 import employeeRouter from './routes/EmployeeRoute.js';
 import departmentRouter from './routes/DepartmentRoutes.js';
-import positionRouter from './routes/PositionRoute.js';
 import taxRouter from './routes/TaxRoute.js';
 import incentiveRouter from './routes/IncentiveRoute.js';
 import deductionRouter from './routes/DeductionRoutes.js';
+import accessRouter from './routes/AccessRoute.js';
+import positionAccessRouter from './routes/PositionAccessRoutes.js';
+import positionRouter from './routes/PositionRoute.js';
 
 
 dotenv.config();
@@ -98,6 +100,9 @@ app.use((req, res, next) => {
   app.use("/api/v1/tax", taxRouter)
   app.use("/api/v1/incentive", incentiveRouter)
   app.use("/api/v1/deduction", deductionRouter)
+  app.use("/api/v1/access", accessRouter)
+  app.use("/api/v1/positionAccess", positionAccessRouter)
+
 
   const port = 8080;
 
