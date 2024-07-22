@@ -100,8 +100,8 @@ const data = [
     name: "John Doe",
     status: "COMPLETED",
     department: "Marketing",
-    amount: "₦500",
-  }
+    amount: "₦500"
+    },
   {
     date: "12-05-24",
     name: "Jane Smith",

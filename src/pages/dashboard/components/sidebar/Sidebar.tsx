@@ -12,6 +12,13 @@ import {
   IconLayoutGrid,
   IconCalendarEvent,
   IconUserCog,
+  IconMoneybag,
+  IconMathGreater,
+  IconMathEqualLower,
+  IconArrowBadgeRight,
+  IconArrowBadgeDown,
+  IconArrowRight,
+  IconArrowDown,
 } from "@tabler/icons-react";
 import { useDispatch } from "react-redux";
 import { clearUserDetails } from "../../../../store/auth/authSlice";
@@ -40,22 +47,72 @@ const Sidebar: React.FC<Props> = ({ children, pageName }) => {
     { link: "/dashboard/leave", label: "Leave", icon: IconCalendarEvent },
     { link: "/dashboard/attendance", label: "Attendance", icon: IconUserCheck },
     { link: "/dashboard/payroll", label: "Payroll", icon: IconWallet },
-    { link: "/dashboard/settings", label: "Settings", icon: IconSettings },
+    { label: "Settings", icon: IconSettings,
+      children:[
+        { link: "/dashboard/settings/access", label: "Access"}
+      ]  
+     },
   ];
 
+  const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+  const toggleMenu = (label: string) => {
+    setExpandedMenus((prev) =>
+      prev.includes(label)
+        ? prev.filter((menu) => menu !== label)
+        : [...prev, label]
+    );
+  };
+
+  const handleNavClick = (label: string) => {
+    setActive(label);
+    sessionStorage.setItem("activePage", label);
+  };
+
+  const renderSubmenu = (children: any[]) => {
+    return (
+      <div className="ml-10">
+        {children.map((child, i) => (
+          <Link
+            className="link"
+            to={child.link}
+            key={i}
+            data-active={child.label === active || undefined}
+            onClick={() => handleNavClick(child.label)}
+          >
+            <span>{child.label}</span>
+          </Link>
+        ))}
+      </div>
+    );
+  };
+
   const navLinks = navigation.map((item, i) => (
-    <Link
+   <div>
+     <div
+        className=" text-gray-800 flex items-center p-2 rounded-md cursor-pointer"
+      >
+     <Link
       className={"link"}
       data-active={item.label === active || undefined}
-      to={item.link}
+      to={item.link!}
       key={i}
       onClick={() => {
         setActive(item.label);
         sessionStorage.setItem("activePage", item.label);
+          item.children ? toggleMenu(item.label) : handleNavClick(item.label)
       }}>
       <item.icon className={"linkIcon"} stroke={1.5} />
       <span>{item.label}</span>
+      <span className="flex items-center"> {item.children && (
+          <span className="ml-8 text-xs">
+            {expandedMenus.includes(item.label) ? < IconArrowDown/> : <IconArrowRight/ >}
+          </span>
+        )}</span>
     </Link>
+ 
+        </div>
+    {item.children && expandedMenus.includes(item.label) && renderSubmenu(item.children)}
+   </div>
   ));
 
   return (

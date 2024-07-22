@@ -45,7 +45,7 @@ export const SignIn = () => {
   return (
     <div className="bg-[#e9ecef] h-[100vh] w-100 flex items-center justify-center">
       <div className="p-8 bg-white rounded-md w-[80%] max-w-[400px] mx-auto">
-        <h1 className="text-[#9263f8] text-left text-3xl font-bold">Sign In</h1>
+        <h1 className="text-[#0C2D48] text-left text-3xl font-bold">Sign In</h1>
         <p className="text-[#626262] my-3">
           Please enter your details to sign in.
         </p>
@@ -100,7 +100,7 @@ export const SignIn = () => {
             Don't have an account?{" "}
             <Link
               to="/sign-up"
-              className="text-[#9263f8] font-bold hover:underline">
+              className="text-[#970C10] font-bold hover:underline">
               Sign Up
             </Link>
           </p>
