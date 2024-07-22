@@ -34,11 +34,11 @@ export const AddDesignation: React.FC<Props> = ({ opened, close }) => {
     mode: "uncontrolled",
     initialValues: {
       departmentName: "",
-      departmentDescrition: "",
+      departmentDescription: "",
     },
 
     validate: {
-      departmentDescrition: (value) =>
+      departmentDescription: (value) =>
         value.length < 0 ? "Description is required " : null,
       departmentName: (value) =>
         value.length < 0 ? "Department Title is required" : null,
@@ -51,7 +51,7 @@ export const AddDesignation: React.FC<Props> = ({ opened, close }) => {
         onSubmit={form.onSubmit(async (val) => {
           form.validate();
           const isValid = form.isValid();
-          if (isValid) await addDesignation(val);
+          if (isValid) await addDesignation(val as any);
         })}>
         <TxtInput
           label="Department"
@@ -65,10 +65,10 @@ export const AddDesignation: React.FC<Props> = ({ opened, close }) => {
         <TxtArea
           label="Description"
           type="text"
-          name="departmentDescrition"
-          id="departmentDescrition"
-          key={form.key("departmentDescrition")}
-          {...form.getInputProps("departmentDescrition")}
+          name="departmentDescription"
+          id="departmentDescription"
+          key={form.key("departmentDescription")}
+          {...form.getInputProps("departmentDescription")}
         />
         <br />
         <PrimaryButton

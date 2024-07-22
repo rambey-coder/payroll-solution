@@ -22,7 +22,7 @@ export const Designation = () => {
     <Table.Tr key={item.id}>
       <Table.Td>{item.departmentName}</Table.Td>
 
-      <Table.Td>{item.departmentDescrition || "--"}</Table.Td>
+      <Table.Td>{(item.departmentDescription ? (item.departmentDescription.length > 70 ? item.departmentDescription.substring(0, 70)+"..." : item.departmentDescription) : "___" )}</Table.Td>
       <Table.Td>{item.createdAt}</Table.Td>
       <Table.Td>{0}</Table.Td>
 
