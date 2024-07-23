@@ -7,6 +7,9 @@ import employeeReducer from "./employee/employeeSlice";
 import { designationApi } from "./designation";
 import designationReducer from "./designation/designationSlice";
 import { positionApi } from "./position";
+import { IncentiveApi } from "./incentive/api";
+import { TaxApi as taxApi } from "./tax/api";
+import { AccessApi } from "./access/api";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -16,6 +19,9 @@ export const store = configureStore({
     [employeeApi.reducerPath]: employeeApi.reducer,
     [designationApi.reducerPath]: designationApi.reducer,
     [positionApi.reducerPath]: positionApi.reducer,
+    [IncentiveApi.reducerPath]: IncentiveApi.reducer,
+    [AccessApi.reducerPath]: AccessApi.reducer,
+    [taxApi.reducerPath]: taxApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -23,7 +29,10 @@ export const store = configureStore({
       authApi.middleware,
       employeeApi.middleware,
       designationApi.middleware,
-      positionApi.middleware
+      positionApi.middleware,
+      taxApi.middleware,
+      IncentiveApi.middleware,
+      AccessApi.middleware
     ),
 });
 

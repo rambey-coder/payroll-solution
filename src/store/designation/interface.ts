@@ -1,6 +1,6 @@
 export interface AddDesignationPayload {
   departmentName: string;
-  departmentDescrition: string;
+  departmentDescription: string;
 }
 
 export interface AddDesignationRes {
