@@ -41,13 +41,14 @@ interface ThProps {
 }
 
 const data = {
-  data: [{
-    id:1,
-    position: "Human Resource Manager",
-    access: "Employee Management",
-  }]
-}
-
+  data: [
+    {
+      id: 1,
+      position: "Human Resource Manager",
+      access: "Employee Management",
+    },
+  ],
+};
 
 const AccessTable = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -59,7 +60,7 @@ const AccessTable = () => {
   }, []);
 
   const user = data?.data;
-  const rows = (data!).data?.map((item) => (
+  const rows = data!.data?.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td>{item.position}</Table.Td>
       <Table.Td>{item.access}</Table.Td>
@@ -81,10 +82,9 @@ const AccessTable = () => {
       </Table.Td>
     </Table.Tr>
   ));
-  
+
   return (
-    <div className=" flex items-center  w-full justify-center">
-      <div className="w-2/3">
+    <div>
       <AddUser opened={opened} close={close} />
       <div className="flex justify-end w-full">
         <PrimaryButton
@@ -94,26 +94,23 @@ const AccessTable = () => {
           onClick={open}
           name="Add Access"
         />
-      </div> 
-  <div className="bg-white p-4 rounded-lg shadow mt-[3rem]">
-    <Table.ScrollContainer minWidth={800}>
-      <Table verticalSpacing="sm">
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Position</Table.Th>
-            <Table.Th>Access</Table.Th>
-            <Table.Th />
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </Table.ScrollContainer>
-  </div>
-  </div>
-  </div>
-  )
+      </div>
+      <div className="bg-white p-4 rounded-lg shadow mt-[3rem]">
+        <Table.ScrollContainer minWidth={800}>
+          <Table verticalSpacing="sm">
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Position</Table.Th>
+                <Table.Th>Access</Table.Th>
+                <Table.Th />
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+          </Table>
+        </Table.ScrollContainer>
+      </div>
+    </div>
+  );
+};
 
-}
-
-
-export default AccessTable
+export default AccessTable;

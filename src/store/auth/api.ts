@@ -5,6 +5,7 @@ import {
   IUser,
   LoginPayload,
   LoginResponse,
+  ProfileRes,
   SignUpPayload,
   SignUpResponse,
 } from "./interface";
@@ -31,7 +32,7 @@ export const authApi = createApi({
       }),
       invalidatesTags: ["Auth"],
     }),
-    getProfile: builder.query<IUser, void>({
+    getProfile: builder.query<ProfileRes, void>({
       query: (id) => ({
         url: `/user/${id}`,
         method: "GET",

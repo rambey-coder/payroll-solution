@@ -12,13 +12,14 @@ export const PrimaryButton: React.FC<ButtonVariantProps> = ({
   disabled,
   loading,
   variant,
+  size,
 }) => {
   return (
     <Button
       variant={variant}
       type={type}
       radius={radius}
-      size="md"
+      size={size ? size : "md"}
       color={color ? color : "#0C2D48"}
       fullWidth={fullWidth}
       onClick={onClick}

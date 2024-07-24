@@ -8,7 +8,7 @@ export interface IUser {
   first_name: string;
   last_name: string;
   email: string;
-  phone: string | null;
+  phone: string;
   password: string;
   confirmPassword: string;
   createdAt: string;
@@ -39,4 +39,8 @@ export interface SignUpResponse {
 
 export interface AllUserResponse {
   data: IUser[];
+}
+
+export interface ProfileRes {
+  data: IUser;
 }

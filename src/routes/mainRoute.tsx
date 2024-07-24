@@ -18,6 +18,7 @@ import { EmployeeDetails } from "../pages/dashboard/employee/components";
 import Position from "../pages/dashboard/position/position";
 import Bursary from "../pages/dashboard/bursary/Bursary";
 import Access from "../pages/dashboard/settings/access/Access";
+import { Profile } from "../pages/dashboard/settings/profile/profile";
 
 export const MainRoute = () => {
   return (
@@ -38,6 +39,7 @@ export const MainRoute = () => {
           <Route path="designation" element={<Designation />} />
           <Route path="position" element={<Position />} />
           <Route path="settings/access" element={<Access />} />
+          <Route path="settings/profile" element={<Profile />} />
         </Route>
       </Routes>
     </ScrollToTop>

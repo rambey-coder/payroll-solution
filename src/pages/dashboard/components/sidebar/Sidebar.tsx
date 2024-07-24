@@ -54,29 +54,16 @@ const Sidebar: React.FC<Props> = ({ children, pageName }) => {
     { link: "/dashboard/leave", label: "Leave", icon: IconCalendarEvent },
     { link: "/dashboard/attendance", label: "Attendance", icon: IconUserCheck },
     { link: "/dashboard/payroll", label: "Payroll", icon: IconWallet },
-    // { link: "/dashboard/settings", label: "Settings", icon: IconSettings },
     {
       link: "/dashboard/settings",
       label: "Settings",
       icon: IconSettings,
-      links: [{ link: "/dashboard/settings/access", label: "Access" }],
+      links: [
+        { link: "/dashboard/settings/profile", label: "Profile" },
+        { link: "/dashboard/settings/access", label: "Access" },
+      ],
     },
   ];
-
-  // const navLinks = navigation.map((item, i) => (
-  //   <Link
-  //     className={"link"}
-  //     data-active={item.label === active || undefined}
-  //     to={item.link}
-  //     key={i}
-  //     onClick={() => {
-  //       setActive(item.label);
-  //       sessionStorage.setItem("activePage", item.label);
-  //     }}>
-  //     <item.icon className={"linkIcon"} stroke={1.5} />
-  //     <span>{item.label}</span>
-  //   </Link>
-  // ));
 
   const navLinks = navigation.map((item, i) => {
     if ("links" in item && Array.isArray(item.links)) {
