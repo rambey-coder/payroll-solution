@@ -153,18 +153,15 @@ employeeRouter.get("/:id", EmployeeController.getEmployeeById)
  *          
  */
 employeeRouter.get("/", EmployeeController.getEmployees)
-
 /**
  * @swagger
  * /employee/{id}/uploadProfilePicture:
  *   patch:
- *     summary: Upload employee profile picture
+ *     summary: Updates employee profile picture
  *     tags: [Employee]
  *     requestBody:
  *        content:
  *          application/json:
- *           - in: path
- *             name: id
  *             schema:
  *                 $ref: '#/components/schemas/EmployeeProfilePicture'
  *                 
@@ -173,8 +170,8 @@ employeeRouter.get("/", EmployeeController.getEmployees)
  *          description: bad request
  *       500:
  *          description: internal server error
- *       200:
- *         description: employee successfully created
+ *       201:
+ *         description: employee profile picture successfully updated
  *         content:
  *           application/json:
  *             schema:
