@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { EmployeeController } from "../controllers/EmployeeController.js";
+import { Upload } from "../middlewares/File.js";
 
 const employeeRouter = Router()
 
@@ -60,7 +61,7 @@ employeeRouter.post('/', EmployeeController.createEmployee);
  *            
  *          
  */
-employeeRouter.post('/:id', EmployeeController.updateEmployee);
+employeeRouter.put('/:id', EmployeeController.updateEmployee);
 
 
 /**
@@ -91,7 +92,7 @@ employeeRouter.post('/:id', EmployeeController.updateEmployee);
  *            
  *          
  */
-employeeRouter.post('/status/:id', EmployeeController.updateEmployeeStatus);
+employeeRouter.patch('/status/:id', EmployeeController.updateEmployeeStatus);
 
 /**
  * @swagger
@@ -152,6 +153,37 @@ employeeRouter.get("/:id", EmployeeController.getEmployeeById)
  *          
  */
 employeeRouter.get("/", EmployeeController.getEmployees)
+
+/**
+ * @swagger
+ * /employee/{id}/uploadProfilePicture:
+ *   patch:
+ *     summary: Upload employee profile picture
+ *     tags: [Employee]
+ *     requestBody:
+ *        content:
+ *          application/json:
+ *           - in: path
+ *             name: id
+ *             schema:
+ *                 $ref: '#/components/schemas/EmployeeProfilePicture'
+ *                 
+ *     responses:
+ *       400:
+ *          description: bad request
+ *       500:
+ *          description: internal server error
+ *       200:
+ *         description: employee successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *            
+ *          
+ */
+employeeRouter.patch("/:id/uploadProfilePicture", Upload.single("profilePicture"), EmployeeController.uploadEmployeeProfilePicture)
+
 
 
 export default employeeRouter

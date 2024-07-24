@@ -6,31 +6,45 @@ import models from "../models/index.js";
 
 export class EmployeeService {
     createEmployee = async (req, res) => {
-           const existingPosition = await models.Position.findOne({
+        const existingPosition = await models.Position.findOne({
             id: req.body.positionId
-           })
-           if(!existingPosition){
+        })
+        if (!existingPosition) {
             throw new BadRequestException("Position must exist before an employee can be added")
-           }
-           await models.Employee.create(req.body)
+        }
+        const profilePicture = new File(req.file)
+        if (profilePicture) {
+            if (profilePicture.isValidFile && profilePicture.isInvalidSize()) {
+                throw new BadRequestException(
+                    "The file is greater than 250kb"
+                )
+            }
+
+            if (profilePicture.isValidFile && profilePicture.isInvalidType()) {
+                throw new BadRequestException(
+                    "The file extension is not supported"
+                )
+            }
+        }
+        await models.Employee.create(req.body)
     }
 
 
     getEmployeeById = async (req) => {
-        return await models.Employee.findByPk(req.params.id,{
+        return await models.Employee.findByPk(req.params.id, {
             include: {
                 model: PositionModel,
-                as:"position",
+                as: "position",
                 attributes: ["id", "title"]
             }
         });
     };
 
-    getEmployees = async() =>{
+    getEmployees = async () => {
         return await models.Employee.findAll({
             include: {
                 model: PositionModel,
-                as:"position",
+                as: "position",
                 attributes: ["id", "title"]
             }
         })
@@ -38,27 +52,27 @@ export class EmployeeService {
 
     updateEmployeeById = async (req) => {
         const existingPosition = await models.Position.findOne({
-            where:{
+            where: {
                 id: req.body.positionId
             }
-           })
-           if(!existingPosition){
+        })
+        if (!existingPosition) {
             throw new BadRequestException("Position must exist before an employee can be added")
-           }
+        }
         return await models.Employee.findByIdAndUpdate(req.params.id, req.body, { new: true });
     };
 
-    updateEmployeeStatus = async(req) =>{
+    updateEmployeeStatus = async (req) => {
         const existingEmployee = await models.Employee.findOne({
-           where: {
-            id: req.body.id
-           }
+            where: {
+                id: req.body.id
+            }
         })
-        if(!existingEmployee){
+        if (!existingEmployee) {
             throw new BadRequestException("Employee not found")
         }
-        await models.Employee.update({status: req.body.status}, {
-            where:{
+        await models.Employee.update({ status: req.body.status }, {
+            where: {
                 id: req.body.id
             }
         })
@@ -68,4 +82,35 @@ export class EmployeeService {
         return await models.Employee.findByIdAndDelete(req.params.id);
     };
 
+    static uploadEmployeeProfilePicture = async (req, res) => {
+        const existingEmployee = await models.Employee.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        if (!existingEmployee) {
+            throw new BadRequestException("Position must exist before an employee can be added")
+        }
+        const profilePicture = new File(req.file)
+        if (profilePicture) {
+            if (profilePicture.isValidFile && profilePicture.isInvalidSize()) {
+                throw new BadRequestException(
+                    "The file is greater than 250kb"
+                )
+            }
+
+            if (profilePicture.isValidFile && profilePicture.isInvalidType()) {
+                throw new BadRequestException(
+                    "The file extension is not supported"
+                )
+            }
+            await models.Employee.update({profilePicture},
+                {where:{id: req.params.id}}
+            )
+            res.json({
+                message: "Employee profile picture uploaded"
+            })
+        }
+
+    }
 }

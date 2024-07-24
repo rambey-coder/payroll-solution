@@ -33,3 +33,14 @@
  *         status:
  *           type: string
  */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     EmployeeProfilePicture:
+ *       type: object
+ *       properties:
+ *         profilePicture:
+ *           type: string
+ */

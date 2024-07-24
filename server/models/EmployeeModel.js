@@ -19,6 +19,9 @@ const EmployeeModel = db.define(
         phone: {
             type: DataTypes.STRING,
         },
+        profilePicture: {
+            type: DataTypes.STRING,
+        },
         address: {
             type: DataTypes.STRING,
         },

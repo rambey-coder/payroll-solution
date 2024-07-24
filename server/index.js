@@ -13,6 +13,8 @@ import positionRouter from './routes/PositionRoute.js';
 import taxRouter from './routes/TaxRoute.js';
 import incentiveRouter from './routes/IncentiveRoute.js';
 import deductionRouter from './routes/DeductionRoutes.js';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 
 dotenv.config();
@@ -32,7 +34,8 @@ app.use(cookieParser());
 app.use(express.json());
 
 const whitelist = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://infopayroll-solution.netlify.app'];
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const corsOptions = {
   credentials: true,
   origin: function (origin, callback) {
@@ -90,6 +93,7 @@ app.use((req, res, next) => {
   const specs = swaggerJSDoc(options);
 
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+  app.use("/", express.static(path.join(__dirname, 'public/images')));
 
   app.use("/api/v1/user", userRouter)
   app.use("/api/v1/employee", employeeRouter)

@@ -8,6 +8,18 @@ export class EmployeeController{
     static createEmployee = async(req, res) => {
         try{
             await EmployeeController.employeeService.createEmployee(req, res)
+            const logoFile = new File(req.file)
+            // if (logoFile.isValidFile && logoFile.isInvalidSize()) {
+            //   return res.status(400).json({
+            //     msg: "The file is greater than 250kb"
+            //   })
+            // }
+          
+            // if (logo.isValidFile && logoFile.isInvalidType()) {
+            //   return res.status(400).json({
+            //     msg: "The file extension is not supported"
+            //   })
+            // }
             res.json({
                 message: "Employee created"
             })
@@ -65,6 +77,18 @@ export class EmployeeController{
       static updateEmployee = async (req, res) =>{
         try{
             const employee = await EmployeeController.employeeService.updateEmployeeById(req)
+            // const logoFile = new File(req.file)
+            // if (logoFile.isValidFile && logoFile.isInvalidSize()) {
+            //   return res.status(400).json({
+            //     msg: "The file is greater than 250kb"
+            //   })
+            // }
+          
+            // if (logo.isValidFile && logoFile.isInvalidType()) {
+            //   return res.status(400).json({
+            //     msg: "The file extension is not supported"
+            //   })
+            // }
             res.json({
                 message: "employee updated"
             })
@@ -134,5 +158,25 @@ export class EmployeeController{
         }
       }
 
-      
+      static uploadEmployeeProfilePicture = async(req, res) =>{
+        await EmployeeController.employeeService.uploadEmployeeProfilePicture(req, res)
+        if(err instanceof NotFoundException){
+            return res.status(400).json({
+                 message: err.message
+             })
+         }
+         if(err instanceof DuplicateException){
+             return res.status(409).json({
+                  message: err.message
+              })
+          }
+          if(err instanceof BadRequestException){
+             return res.status(409).json({
+                  message: err.message
+              })
+          }
+        res.status(500).json({
+            message: err.message
+        })
+      }
 }
