@@ -4,6 +4,7 @@ import {
   IconFileText,
   IconChecklist,
   IconCalendarClock,
+  IconPrinter,
 } from "@tabler/icons-react";
 import { Doughnut } from "react-chartjs-2";
 import {
@@ -17,6 +18,10 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
+import { ButtonWithIcon } from "../../../../../components";
+import PayrollReportPDF from "./pdfDownload";
+import { pdf } from "@react-pdf/renderer";
+import html2pdf from "html2pdf.js";
 
 ChartJS.register(
   ArcElement,
@@ -34,7 +39,7 @@ export const Success = () => {
     {
       title: "Total Payroll",
       icon: IconFileText,
-      value: "$207,000",
+      value: "₦207,000",
     },
     { title: "Payroll Date", icon: IconChecklist, value: "Jul 30 2024" },
     {
@@ -60,12 +65,86 @@ export const Success = () => {
     ],
   };
 
+  const htmlContent = `
+  <caption style='margin-bottom: 20px, text-align: center'>Payroll for the month of july</caption>
+  
+<table style="border-collapse: collapse; width: 100%;">
+  <tr style="background-color: #f2f2f2;">
+    <th style="border: 1px solid black; padding: 8px; text-align: left;">Employee Name</th>
+    <th style="border: 1px solid black; padding: 8px; text-align: left;">Gross salary</th>
+    <th style="border: 1px solid black; padding: 8px; text-align: left;">Reimbursement</th>
+    <th style="border: 1px solid black; padding: 8px; text-align: left;">Benefit</th>
+    <th style="border: 1px solid black; padding: 8px; text-align: left;">Total</th>
+  </tr>
+  <tBody>
+  <tr>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;"> Bill Horsefighter</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦2,346.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦0.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦150.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦2,346.00</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;"> Jeremy Footviewer</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦2,346.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦0.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦150.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦2,346.00</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;"> Henry Silkeater</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦2,346.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦0.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦150.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦2,346.00</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;"> Robert Wolfkisser</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦2,346.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦0.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦150.00</td>
+    <td style="border: 1px solid black; padding: 8px; text-align: left;">₦2,346.00</td>
+  </tr>
+  </tBody>
+  </table>
+  `;
+
+  const handleDownload = async () => {
+    const opt = {
+      margin: [20, 10, 10, 10],
+      filename: "payroll.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 3 },
+      jsPDF: { unit: "mm", format: "letter", orientation: "portrait" },
+    };
+
+    html2pdf().from(htmlContent).set(opt).save();
+    // const blob = await pdf(<PayrollReportPDF />).toBlob();
+    // const url = URL.createObjectURL(blob);
+    // const link = document.createElement("a");
+    // link.href = url;
+    // link.download = "payroll_report.pdf";
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
+    // URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="my-[3rem] bg-white p-8 rounded shadow">
       <div className="mb-8">
-        <h1 className="font-bold text-2xl mb-2">Payroll Submitted</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="font-bold text-2xl mb-2">Payroll Submitted</h1>
+          <ButtonWithIcon
+            leftSection={<IconPrinter stroke={1.5} />}
+            variant="subtle"
+            name="Print payroll"
+            type="button"
+            onClick={handleDownload}
+          />
+        </div>
         <p className="text-[#495057]">
-          The sum of $270,000 on july 30 and all employee would be paid by 31th
+          The sum of ₦270,000 on july 30 and all employee would be paid by 31th
           july. Make sure all funds are available.
         </p>
       </div>

@@ -17,18 +17,18 @@ export const PayrollList = () => {
     {
       title: "Total Payment", //total payment
       icon: IconFileText,
-      value: "$13,456",
+      value: "₦13,456",
     },
     { title: "Completed", icon: IconChecklist, value: "$4,145", diff: -13 },
     {
       title: "Pending", //total deduction
       icon: IconLoader,
-      value: "$7,745",
+      value: "₦7,745",
     },
     {
       title: "Overdue",
       icon: IconAlertCircle,
-      value: "$2,188",
+      value: "₦2,188",
     },
   ];
 

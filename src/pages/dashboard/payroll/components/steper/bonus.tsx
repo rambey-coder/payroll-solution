@@ -132,7 +132,7 @@ export const Bonus = () => {
         </Anchor>
       </Table.Td>
       <Table.Td>
-        <Text fz="sm">{item.salary}</Text>
+        <Text fz="sm">₦{item.salary}</Text>
       </Table.Td>
       <Table.Td>
         {/* were gonna show the list of allowance, bonus, deductions and reimbursement. */}
@@ -144,7 +144,7 @@ export const Bonus = () => {
               size={14}
             />
           </ActionIcon>
-          <Text fz="sm"> Bonus - $80</Text>
+          <Text fz="sm"> Bonus - ₦80</Text>
         </Group>
       </Table.Td>
       <Table.Td>
