@@ -1,3 +1,4 @@
+import db from "../configs/Database.js";
 import { BadRequestException } from "../exceptions/BadRequestException.js";
 import { DuplicateException } from "../exceptions/DuplicateException.js";
 import { NotFoundException } from "../exceptions/NotFoundException.js";
@@ -7,24 +8,15 @@ export class EmployeeController{
     static employeeService = new EmployeeService()
     static createEmployee = async(req, res) => {
         try{
-            await EmployeeController.employeeService.createEmployee(req, res)
-            const logoFile = new File(req.file)
-            // if (logoFile.isValidFile && logoFile.isInvalidSize()) {
-            //   return res.status(400).json({
-            //     msg: "The file is greater than 250kb"
-            //   })
-            // }
-          
-            // if (logo.isValidFile && logoFile.isInvalidType()) {
-            //   return res.status(400).json({
-            //     msg: "The file extension is not supported"
-            //   })
-            // }
+            const transaction = await db.transaction()
+            await EmployeeController.employeeService.createEmployee(req, res,transaction)
             res.json({
                 message: "Employee created"
             })
+            await transaction.commit()
         }
         catch(err){
+            await transaction.rollback()
             if(err instanceof NotFoundException){
                return res.status(400).json({
                     message: err.message

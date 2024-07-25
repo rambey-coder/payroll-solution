@@ -3,13 +3,13 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 export class UserService {
-    createUser = async (userData) => {
+    createUser = async (userData, transaction=null) => {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const user = new models.User({
             ...userData,
             password: hashedPassword
         });
-        await user.save();
+        await user.save({transaction});
     };
 
     login = async (email, password) => {

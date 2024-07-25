@@ -30,7 +30,7 @@ const employeeRouter = Router()
  *            
  *          
  */
-employeeRouter.post('/', EmployeeController.createEmployee);
+employeeRouter.post('/', Upload.single("profilePicture"), EmployeeController.createEmployee);
 
 
 /**

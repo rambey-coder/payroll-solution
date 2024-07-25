@@ -7,29 +7,11 @@ const { DataTypes } = Sequelize;
 const UserModel = db.define(
     'users',
     {
-        first_name: {
-            type: DataTypes.STRING,
-        },
-        last_name: {
-            type: DataTypes.STRING,
-        },
         email: {
-            type: DataTypes.STRING,
-        },
-        phone: {
             type: DataTypes.STRING,
         },
         password: {
             type: DataTypes.STRING,
-        },
-        confirmPassword: {
-            type: DataTypes.STRING,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-        },
-        updatedAt:{
-            type: DataTypes.DATE
         }
     },
     {
