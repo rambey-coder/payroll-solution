@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Group, Avatar } from "@mantine/core";
 import { PrimaryButton, TxtInput } from "../../../../components";
 import { useOutletContext } from "react-router-dom";
@@ -11,9 +11,23 @@ export const Profile = () => {
 
   const avatarRef = useRef<HTMLInputElement>(null);
   const [setPageName] = useOutletContext<any>();
+  const [selectedImage, setSelectedImage] = useState<
+    string | ArrayBuffer | null
+  >(null);
 
   const { data } = useGetProfileQuery(id);
   const user = data?.data;
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   useEffect(() => {
     setPageName("Profile Details");
@@ -22,7 +36,11 @@ export const Profile = () => {
     <div className="w-2/5">
       <Group>
         <Avatar
-          src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+          src={
+            selectedImage
+              ? selectedImage.toString()
+              : "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+          }
           radius="xl"
           size={"xl"}
         />
@@ -36,7 +54,14 @@ export const Profile = () => {
             size="sm"
             onClick={() => avatarRef.current && avatarRef.current.click()}
           />
-          <input type="file" name="" hidden id="" ref={avatarRef} />
+          <input
+            type="file"
+            name=""
+            hidden
+            id=""
+            ref={avatarRef}
+            onChange={handleImageUpload}
+          />
           <PrimaryButton
             variant="outline"
             color="red"

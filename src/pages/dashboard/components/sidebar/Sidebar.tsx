@@ -55,7 +55,7 @@ const Sidebar: React.FC<Props> = ({ children, pageName }) => {
     { link: "/dashboard/attendance", label: "Attendance", icon: IconUserCheck },
     { link: "/dashboard/payroll", label: "Payroll", icon: IconWallet },
     {
-      link: "/dashboard/settings",
+      link: "/dashboard/settings/profile",
       label: "Settings",
       icon: IconSettings,
       links: [
