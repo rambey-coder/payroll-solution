@@ -7,6 +7,8 @@ import PositionModel from './PositionModel.js';
 import TaxModel from './TaxModel.js';
 import IncentiveModel from './IncentiveModel.js';
 import DeductionModel from './DeductionModel.js';
+import PositionAccessModel from './PositionAccessModel.js';
+import AccessModel from './AccessModel.js';
 
 UserModel.hasMany(EmployeeModel, {
     foreignKey: 'userId',
@@ -38,6 +40,19 @@ EmployeeModel.belongsTo(PositionModel,
     as: 'position'}
 )
 
+PositionAccessModel.belongsTo(PositionModel,
+    {
+    as: 'position'}
+)
+PositionModel.hasMany(PositionAccessModel,
+    {foreignKey: 'positionId',
+    as: 'positionAccess'}
+)
+PositionAccessModel.belongsTo(AccessModel,
+    {
+    as: 'access'}
+)
+
 const models = {
     User: UserModel,
     Employee: EmployeeModel,
@@ -46,8 +61,11 @@ const models = {
     Tax: TaxModel,
     Incentive: IncentiveModel,
     Deduction: DeductionModel,
+    PositionAccess: PositionAccessModel,
+    Access: AccessModel,
     sequelize: db,
     Sequelize
 };
+
 
 export default models;

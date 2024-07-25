@@ -15,7 +15,7 @@ const db = new Sequelize(
     host: '176.74.18.130',
     // host: '127.0.0.1',
     port: 3306,
-    logging: true
+    logging: false
 });
 // const db = new Sequelize('school', 'root', '', {
 //   host: '127.0.0.1',

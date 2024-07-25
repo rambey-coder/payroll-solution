@@ -15,6 +15,8 @@ import incentiveRouter from './routes/IncentiveRoute.js';
 import deductionRouter from './routes/DeductionRoutes.js';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import accessRouter from './routes/AccessRoute.js';
+import positionAccessRouter from './routes/PositionAccessRoute.js';
 
 
 dotenv.config();
@@ -102,6 +104,9 @@ app.use((req, res, next) => {
   app.use("/api/v1/tax", taxRouter)
   app.use("/api/v1/incentive", incentiveRouter)
   app.use("/api/v1/deduction", deductionRouter)
+  app.use("/api/v1/access", accessRouter)
+  app.use("/api/v1/positionAccess", positionAccessRouter)
+
 
   const port = 8080;
 
