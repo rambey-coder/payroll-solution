@@ -9,7 +9,6 @@ import { UserService } from "./UserService.js";
 export class EmployeeService {
     userService = new UserService()
     createEmployee = async (req, res, transaction) => {
-        const transaction = await db.transaction()
         const existingPosition = await models.Position.findOne({
             id: req.body.positionId
         })
