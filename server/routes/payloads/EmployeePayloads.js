@@ -19,6 +19,8 @@
  *           type: string
  *         address:
  *           type: string
+ *         profilePicture:
+ *           type: string
  *         active:
  *           type: bool
  */

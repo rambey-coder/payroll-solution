@@ -151,24 +151,32 @@ export class EmployeeController{
       }
 
       static uploadEmployeeProfilePicture = async(req, res) =>{
-        await EmployeeController.employeeService.uploadEmployeeProfilePicture(req, res)
-        if(err instanceof NotFoundException){
-            return res.status(400).json({
-                 message: err.message
-             })
-         }
-         if(err instanceof DuplicateException){
-             return res.status(409).json({
-                  message: err.message
-              })
-          }
-          if(err instanceof BadRequestException){
-             return res.status(409).json({
-                  message: err.message
-              })
-          }
-        res.status(500).json({
-            message: err.message
-        })
+        try{
+            await EmployeeController.employeeService.uploadEmployeeProfilePicture(req, res)
+            return res.json({
+                message: "Profile picture uploaded"
+            })
+        }
+        catch(err){
+            if(err instanceof NotFoundException){
+                return res.status(400).json({
+                     message: err.message
+                 })
+             }
+             if(err instanceof DuplicateException){
+                 return res.status(409).json({
+                      message: err.message
+                  })
+              }
+              if(err instanceof BadRequestException){
+                 return res.status(400).json({
+                      message: err.message
+                  })
+              }
+            res.status(500).json({
+                message: err.message
+            })
+        }
+       
       }
 }

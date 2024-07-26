@@ -4,6 +4,7 @@ import { NotFoundException } from "../exceptions/NotFoundException.js";
 import PositionModel from "../models/PositionModel.js";
 import models from "../models/index.js";
 import { UserService } from "./UserService.js";
+import {File} from "../utils/File.js"
 
 
 export class EmployeeService {
@@ -15,6 +16,7 @@ export class EmployeeService {
         if (!existingPosition) {
             throw new BadRequestException("Position must exist before an employee can be added")
         }
+       if(req.file != undefined){
         const profilePicture = new File(req.file)
         if (profilePicture) {
             if (profilePicture.isValidFile && profilePicture.isInvalidSize()) {
@@ -28,8 +30,9 @@ export class EmployeeService {
                     "The file extension is not supported"
                 )
             }
-            req.body.profilePicture = profilePicture
+            req.body.profilePicture = req.file.filename
         }
+       }
         const newUser = {
             email: req.body.email,
             password: req.body.email,
@@ -91,7 +94,7 @@ export class EmployeeService {
         return await models.Employee.findByIdAndDelete(req.params.id);
     };
 
-    static uploadEmployeeProfilePicture = async (req, res) => {
+    uploadEmployeeProfilePicture = async (req, res) => {
         const existingEmployee = await models.Employee.findOne({
             where: {
                 id: req.params.id
@@ -100,8 +103,8 @@ export class EmployeeService {
         if (!existingEmployee) {
             throw new BadRequestException("Position must exist before an employee can be added")
         }
-        const profilePicture = new File(req.file)
-        if (profilePicture) {
+        if (req.file != undefined) {
+            const profilePicture = new File(req.file)
             if (profilePicture.isValidFile && profilePicture.isInvalidSize()) {
                 throw new BadRequestException(
                     "The file is greater than 250kb"
@@ -113,9 +116,10 @@ export class EmployeeService {
                     "The file extension is not supported"
                 )
             }
-            await models.Employee.update({profilePicture},
-                {where:{id: req.params.id}}
-            )
+            req.body.profilePicture = req.file.filename
+            // await models.Employee.update({profilePicture},
+            //     {where:{id: req.params.id}}
+            // )
             res.json({
                 message: "Employee profile picture uploaded"
             })

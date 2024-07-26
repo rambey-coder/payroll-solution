@@ -10,15 +10,14 @@ export class File{
     }
 
     isInvalidSize(){
-        console.log(this.file.size > 250000)
-        return this.file.size > 250000
+        return this.file?.size > 250000
     }
 
     isInvalidType(){
         var regexAll = /[^\\]*\.(\w+)$/;
-        var match = this.file.filename.match(regexAll)
-        const ext = match[1]
+        var match = this.file?.filename?.match(regexAll)
+        const ext = match && match[1]
         console.log(ext)
-        return !this.validExtensions.includes(ext)
+        return !this.validExtensions?.includes(ext)
     }
 }
