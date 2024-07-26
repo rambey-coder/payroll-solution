@@ -10,6 +10,7 @@ import {
   rem,
   keys,
   Badge,
+  Avatar,
 } from "@mantine/core";
 import {
   IconSelector,
@@ -142,7 +143,12 @@ export const EmployeeTable = () => {
       key={i}
       className="cursor-pointer">
       <Table.Td className="flex items-center gap-3">
-        <NameProfile name={`${row?.first_name} ${row?.last_name}`} />
+        {row.profilePicture ? (
+          <Avatar src={row.profilePicture} radius="xl" size={"md"} />
+        ) : (
+          <NameProfile name={`${row?.first_name} ${row?.last_name}`} />
+        )}
+
         <span className="capitalize">{`${row?.first_name} ${row?.last_name}`}</span>
       </Table.Td>
       <Table.Td>{Number(row.salary).toLocaleString()}</Table.Td>

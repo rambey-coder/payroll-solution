@@ -34,7 +34,10 @@ export const SignIn = () => {
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      email: (value) => {
+        const trimmedValue = value.trim();
+        return /^\S+@\S+\.\S+$/.test(trimmedValue) ? null : "Invalid email";
+      },
       password: (value) =>
         value.length > 5
           ? null

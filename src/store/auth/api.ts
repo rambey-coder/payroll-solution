@@ -44,13 +44,12 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
-    uploadProfilePicture: builder.mutation<LoginResponse, LoginPayload>({
-      query: (body) => ({
-        url: "/user/login",
-        method: "POST",
+    uploadProfilePicture: builder.mutation<any, any>({
+      query: ({ id, body }) => ({
+        url: `/employee/${id}/uploadProfilePicture`,
+        method: "PATCH",
         body,
       }),
-      invalidatesTags: ["Auth"],
     }),
   }),
 });
@@ -60,4 +59,5 @@ export const {
   useSignUpMutation,
   useGetProfileQuery,
   useGetAllUserQuery,
+  useUploadProfilePictureMutation,
 } = authApi;

@@ -61,6 +61,7 @@ const Sidebar: React.FC<Props> = ({ children, pageName }) => {
       links: [
         { link: "/dashboard/settings/profile", label: "Profile" },
         { link: "/dashboard/settings/access", label: "Access" },
+        { link: "/dashboard/settings/password", label: "Password" },
       ],
     },
   ];
