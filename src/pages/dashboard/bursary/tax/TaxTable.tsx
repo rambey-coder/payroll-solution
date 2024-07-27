@@ -41,14 +41,15 @@ interface ThProps {
 }
 
 const data = {
-  data: [{
-    id:1,
-    taxName: "VAT",
-    taxDescription: "Value Added Tax",
-    taxRate: 1.2
-  }]
-}
-
+  data: [
+    {
+      id: 1,
+      taxName: "VAT",
+      taxDescription: "Value Added Tax",
+      taxRate: 1.2,
+    },
+  ],
+};
 
 const TaxTable = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -60,11 +61,11 @@ const TaxTable = () => {
   }, []);
 
   const tax = data?.data;
-  const rows = (tax! && tax! as Tax[])?.map((item) => (
+  const rows = (tax! && (tax! as Tax[]))?.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td>{item.taxName}</Table.Td>
       <Table.Td>{item.taxDescription}</Table.Td>
-      <Table.Td>{item.taxRate }</Table.Td>
+      <Table.Td>{item.taxRate}</Table.Td>
       <Table.Td>
         <Group gap={0} justify="flex-end">
           <ActionIcon variant="subtle" color="gray">
@@ -83,10 +84,9 @@ const TaxTable = () => {
       </Table.Td>
     </Table.Tr>
   ));
-  
+
   return (
-    <div className=" flex items-center  w-full justify-center">
-      <div className="w-2/3">
+    <div>
       <AddTax opened={opened} close={close} />
       <div className="flex justify-end w-full">
         <PrimaryButton
@@ -96,27 +96,24 @@ const TaxTable = () => {
           onClick={open}
           name="Add Tax"
         />
-      </div> 
-  <div className="bg-white p-4 rounded-lg shadow mt-[3rem]">
-    <Table.ScrollContainer minWidth={800}>
-      <Table verticalSpacing="sm">
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Tax Name</Table.Th>
-            <Table.Th>Tax Description</Table.Th>
-            <Table.Th>Tax Rate</Table.Th>
-            <Table.Th />
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </Table.ScrollContainer>
-  </div>
-  </div>
-  </div>
-  )
+      </div>
+      <div className="bg-white p-4 rounded-lg shadow mt-[3rem]">
+        <Table.ScrollContainer minWidth={800}>
+          <Table verticalSpacing="sm">
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Tax Name</Table.Th>
+                <Table.Th>Tax Description</Table.Th>
+                <Table.Th>Tax Rate</Table.Th>
+                <Table.Th />
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+          </Table>
+        </Table.ScrollContainer>
+      </div>
+    </div>
+  );
+};
 
-}
-
-
-export default TaxTable
+export default TaxTable;

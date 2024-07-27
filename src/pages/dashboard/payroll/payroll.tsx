@@ -1,4 +1,10 @@
-
+import {
+  IconAlertCircle,
+  IconFileText,
+  IconChecklist,
+  IconLoader,
+} from "@tabler/icons-react";
+import { Paper, SimpleGrid, Text } from "@mantine/core";
 import React, { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import { DefaultTab } from "../../../components";
@@ -16,9 +22,14 @@ export const Payroll = () => {
 
   const tab = [
     { label: "Payroll List", value: "list", content: <PayrollList /> },
-    { label: "Tax", value: "tax", content: <TaxTable /> },
-    { label: "Incentive", value: "incentive", content: <IncentiveTable /> },
-    { label: "Deduction", value: "deduction", content: <DeductionTable /> },  ];
+    { label: "Incentive Table", value: "table", content: <IncentiveTable /> },
+    {
+      label: "Deduction Table ",
+      value: "deductionTable",
+      content: <DeductionTable />,
+    },
+    { label: "Tax Table", value: "taxtable", content: <TaxTable /> },
+  ];
 
   return (
     <>

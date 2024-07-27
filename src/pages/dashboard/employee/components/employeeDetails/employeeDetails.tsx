@@ -1,28 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BreadCrumb } from "../../../../../components/breadCrumb/breadCrumb";
 import { useOutletContext, useParams } from "react-router-dom";
 import { EmployeeStat } from "./components/employeeStat";
-import {
-  IconClock,
-  IconLogin,
-  IconCoffee,
-  IconLogout,
-  IconTrash,
-  IconEdit,
-} from "@tabler/icons-react";
+import { IconTrash, IconEdit } from "@tabler/icons-react";
 import { AttendanceTable } from "./components";
-import { ButtonWithIcon, Tab } from "../../../../../components";
+import { ButtonWithIcon, PrimaryButton, Tab } from "../../../../../components";
 import { ITab } from "../../../../../components/tab/interface";
 import { PersonalInfo } from "./components/personalInformation/personalInfo";
 import { EmploymentInfo } from "./components/employmentInfo/employmentInfo";
 import { Leave } from "./components/leave/leave";
 import { useGetEmployeeQuery } from "../../../../../store/employee";
+import { Avatar, Group } from "@mantine/core";
+import { useUploadProfilePictureMutation } from "../../../../../store/auth/api";
+import { alert } from "../../../../../utils/alert";
 
 export const EmployeeDetails = () => {
   const { id } = useParams<string>();
   const [setPageName] = useOutletContext<any>();
 
   const { data } = useGetEmployeeQuery(id);
+  const avatarRef = useRef<HTMLInputElement>(null);
+  const [selectedImage, setSelectedImage] = useState<
+    string | ArrayBuffer | null
+  >(null);
+  const [uploadProfilePicture, { isLoading, isError, isSuccess }] =
+    useUploadProfilePictureMutation();
 
   const employeeData = data?.data;
 
@@ -41,24 +43,36 @@ export const EmployeeDetails = () => {
     },
   ];
 
-  // const data = [
-  //   {
-  //     title: "Average Working Hour",
-  //     icon: IconClock,
-  //     value: "13,456",
-  //   },
-  //   { title: "Average In Time", icon: IconLogin, value: "4,145", diff: -13 },
-  //   {
-  //     title: "Average Out Time",
-  //     icon: IconLogout,
-  //     value: "745",
-  //   },
-  //   {
-  //     title: "Average Break Time",
-  //     icon: IconCoffee,
-  //     value: "188",
-  //   },
-  // ];
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 204800) {
+        alert.error("File size should not exceed 200KB");
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onloadend = async () => {
+        const base64Image = reader.result as string;
+        setSelectedImage(base64Image);
+
+        try {
+          const response = await uploadProfilePicture({
+            id: id,
+            body: { image: base64Image },
+          }).unwrap();
+          console.log("Profile picture uploaded:", response);
+        } catch (error) {
+          console.error("Failed to upload profile picture:", error);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
 
   const tabs: ITab[] = [
     {
@@ -122,25 +136,49 @@ export const EmployeeDetails = () => {
         </div>
       </div>
 
+      <Group my={"xl"}>
+        <Avatar
+          src={
+            selectedImage
+              ? selectedImage.toString()
+              : "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+          }
+          radius="xl"
+          size={"xl"}
+        />
+
+        <div className="flex items-center flex-col gap-3">
+          <PrimaryButton
+            variant="filled"
+            name="Change Photo"
+            radius="md"
+            type="button"
+            size="sm"
+            loading={isLoading}
+            onClick={() => avatarRef.current && avatarRef.current.click()}
+          />
+          <input
+            type="file"
+            name=""
+            hidden
+            id=""
+            ref={avatarRef}
+            onChange={handleImageUpload}
+          />
+          {/* <PrimaryButton
+            variant="outline"
+            color="red"
+            name="Remove Photo"
+            radius="md"
+            type="button"
+            size="sm"
+          /> */}
+        </div>
+      </Group>
+
       <div className="my-12">
         <EmployeeStat />
       </div>
-
-      {/* <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} className="my-8">
-        {data.map((stat) => (
-          <Paper withBorder p="md" radius="md" key={stat.title}>
-            <div className="flex flex-col items-center gap-4">
-              <div className="bg-[#F6F4FF] p-2 rounded-full">
-                <stat.icon className={"icon "} stroke={1.5} color="#9263f8" />
-              </div>
-              <Text className={"value text-[#212529]"}>{stat.value}</Text>
-              <Text size="xs" c="dimmed" className={"title text-[#f8f9fa]"}>
-                {stat.title}
-              </Text>
-            </div>
-          </Paper>
-        ))}
-      </SimpleGrid> */}
 
       <div className="mt-7">
         <Tab defaultValue="personal_info" tabs={tabs} />

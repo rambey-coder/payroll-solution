@@ -24,6 +24,7 @@ export interface EmployeeData {
   first_name: string;
   last_name: string;
   positionId: number;
+  profilePicture: string;
   position: { id: number; title: string };
   sex: string;
 }

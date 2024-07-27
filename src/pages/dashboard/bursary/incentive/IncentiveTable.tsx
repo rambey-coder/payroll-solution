@@ -41,14 +41,15 @@ interface ThProps {
 }
 
 const data = {
-  data: [{
-    id:1,
-    IncentiveName: "VAT",
-    IncentiveDescription: "Value Added Incentive",
-    IncentiveAmount: 1200
-  }]
-}
-
+  data: [
+    {
+      id: 1,
+      IncentiveName: "VAT",
+      IncentiveDescription: "Value Added Incentive",
+      IncentiveAmount: 1200,
+    },
+  ],
+};
 
 const IncentiveTable = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -60,11 +61,11 @@ const IncentiveTable = () => {
   }, []);
 
   const incentive = data?.data;
-  const rows = (incentive && incentive as Incentive[])?.map((item) => (
+  const rows = (incentive && (incentive as Incentive[]))?.map((item) => (
     <Table.Tr key={item.id}>
       <Table.Td>{item.incentiveName}</Table.Td>
       <Table.Td>{item.incentiveDescription}</Table.Td>
-      <Table.Td>{item.amount }</Table.Td>
+      <Table.Td>{item.amount}</Table.Td>
       <Table.Td>
         <Group gap={0} justify="flex-end">
           <ActionIcon variant="subtle" color="gray">
@@ -83,10 +84,9 @@ const IncentiveTable = () => {
       </Table.Td>
     </Table.Tr>
   ));
-  
+
   return (
-    <div className=" flex items-center  w-full justify-center">
-      <div className="w-2/3">
+    <div>
       <AddIncentive opened={opened} close={close} />
       <div className="flex justify-end w-full">
         <PrimaryButton
@@ -96,27 +96,24 @@ const IncentiveTable = () => {
           onClick={open}
           name="Add Incentive"
         />
-      </div> 
-  <div className="bg-white p-4 rounded-lg shadow mt-[3rem]">
-    <Table.ScrollContainer minWidth={800}>
-      <Table verticalSpacing="sm">
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Incentive Name</Table.Th>
-            <Table.Th>Incentive Description</Table.Th>
-            <Table.Th>Incentive Amount</Table.Th>
-            <Table.Th />
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </Table.ScrollContainer>
-  </div>
-  </div>
-  </div>
-  )
+      </div>
+      <div className="bg-white p-4 rounded-lg shadow mt-[3rem]">
+        <Table.ScrollContainer minWidth={800}>
+          <Table verticalSpacing="sm">
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Incentive Name</Table.Th>
+                <Table.Th>Incentive Description</Table.Th>
+                <Table.Th>Incentive Amount</Table.Th>
+                <Table.Th />
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+          </Table>
+        </Table.ScrollContainer>
+      </div>
+    </div>
+  );
+};
 
-}
-
-
-export default IncentiveTable
+export default IncentiveTable;

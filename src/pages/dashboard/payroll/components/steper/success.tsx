@@ -1,9 +1,10 @@
 import React from "react";
-import { SimpleGrid, Paper, Text, Indicator } from "@mantine/core";
+import { SimpleGrid, Paper, Text } from "@mantine/core";
 import {
   IconFileText,
   IconChecklist,
   IconCalendarClock,
+  IconPrinter,
 } from "@tabler/icons-react";
 import { Doughnut } from "react-chartjs-2";
 import {
@@ -17,6 +18,7 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
+import { ButtonWithIcon } from "../../../../../components";
 
 ChartJS.register(
   ArcElement,
@@ -34,7 +36,7 @@ export const Success = () => {
     {
       title: "Total Payroll",
       icon: IconFileText,
-      value: "$207,000",
+      value: "₦207,000",
     },
     { title: "Payroll Date", icon: IconChecklist, value: "Jul 30 2024" },
     {
@@ -61,11 +63,13 @@ export const Success = () => {
   };
 
   return (
-    <div className="my-[3rem] bg-white p-8 rounded shadow">
+    <div className="my-[3rem] bg-white p-8 rounded shadow" id="">
       <div className="mb-8">
-        <h1 className="font-bold text-2xl mb-2">Payroll Submitted</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="font-bold text-2xl mb-2">Payroll Submitted</h1>
+        </div>
         <p className="text-[#495057]">
-          The sum of $270,000 on july 30 and all employee would be paid by 31th
+          The sum of ₦270,000 on july 30 and all employee would be paid by 31th
           july. Make sure all funds are available.
         </p>
       </div>

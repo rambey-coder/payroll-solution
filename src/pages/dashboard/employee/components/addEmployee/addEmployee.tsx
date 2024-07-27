@@ -13,6 +13,8 @@ import {
 import { alert } from "../../../../../utils";
 import { statusList } from "./constants";
 import { useGetAllPositionQuery } from "../../../../../store/position/api";
+import { FileInput, rem } from "@mantine/core";
+import { IconPhotoScan } from "@tabler/icons-react";
 
 interface Props {
   opened: boolean;
@@ -48,6 +50,7 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
       phone: "",
       address: "",
       active: false,
+      profilePicture: "",
     },
   });
 
@@ -57,6 +60,20 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
       value: item.id.toString(),
     })) || [];
 
+  const handleFileChange = (event: any) => {
+    const file = event.target?.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        const result = reader.result as string;
+
+        form.setFieldValue("profilePicture", result);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <Modal
       opened={opened}
@@ -180,7 +197,7 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
             {...form.getInputProps("salary")}
           />
         </div>
-        <div className="mb-7 col-span-1 md:col-span-2">
+        <div className="mb-3 col-span-1 md:col-span-2">
           <SelectOption
             label="Status"
             name="active"
@@ -189,6 +206,17 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
             data={statusList}
             clearable={true}
             onChange={(value) => form.setFieldValue("active", value)}
+          />
+        </div>
+        <div className="mb-7 col-span-1 md:col-span-2">
+          <TxtInput
+            label="Employee Picture"
+            type="file"
+            id="profilePicture"
+            name="profilePicture"
+            placeholder="Employee Picture"
+            required
+            onChange={handleFileChange}
           />
         </div>
         <PrimaryButton

@@ -14,7 +14,7 @@ export const RunPayroll = () => {
   const [active, setActive] = useState(0);
   const nextStep = () =>
     setActive((current) => (current < 4 ? current + 1 : current));
-  if (active === 4) navigate("/dashboard/payroll");
+  if (active === 4) navigate("/dashboard/payroll/success-payroll");
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 

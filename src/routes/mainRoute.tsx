@@ -18,6 +18,9 @@ import { EmployeeDetails } from "../pages/dashboard/employee/components";
 import Position from "../pages/dashboard/position/position";
 import Bursary from "../pages/dashboard/bursary/Bursary";
 import Access from "../pages/dashboard/settings/access/Access";
+import { Profile } from "../pages/dashboard/settings/profile/profile";
+import { PayrollSuccess } from "../pages/dashboard/payroll/components/payrollSuccessful/payrollSuccess";
+import { Password } from "../pages/dashboard/settings/password/password";
 
 export const MainRoute = () => {
   return (
@@ -32,12 +35,15 @@ export const MainRoute = () => {
           <Route path="attendance" element={<Attendance />} />
           <Route path="payroll" element={<Payroll />} />
           <Route path="payroll/run-payroll" element={<RunPayroll />} />
+          <Route path="payroll/success-payroll" element={<PayrollSuccess />} />
           <Route path="employee" element={<Employee />} />
           <Route path="employee/:id" element={<EmployeeDetails />} />
           <Route path="leave" element={<Leave />} />
           <Route path="designation" element={<Designation />} />
           <Route path="position" element={<Position />} />
           <Route path="settings/access" element={<Access />} />
+          <Route path="settings/profile" element={<Profile />} />
+          <Route path="settings/password" element={<Password />} />
         </Route>
       </Routes>
     </ScrollToTop>
