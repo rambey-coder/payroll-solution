@@ -1,7 +1,13 @@
 import { Router } from "express";
-import { UserController } from "../controllers/UserController.js";
+import { UserController } from "../controllers/userController.js";
+import { UserService } from "../services/UserService.js";
+import { EmployeeService } from "../services/EmployeeService.js";
 
 const userRouter = Router()
+const userService = new UserService()
+const employeeService = new EmployeeService()
+userService.setEmployeeService(employeeService)
+const userController = new UserController(userService)
 
 /**
  * @swagger
@@ -31,7 +37,7 @@ const userRouter = Router()
  *            
  *          
  */
-userRouter.post('/login', UserController.login);
+userRouter.post('/login', userController.login);
 
 /**
  * @swagger
@@ -61,7 +67,7 @@ userRouter.post('/login', UserController.login);
  *            
  *          
  */
-userRouter.post('/', UserController.createUser);
+userRouter.post('/', userController.createUser);
 
 
 /**
@@ -98,7 +104,7 @@ userRouter.post('/', UserController.createUser);
  *            
  *          
  */
-userRouter.get("/:id", UserController.getUserById)
+userRouter.get("/:id", userController.getUserById)
 
 /**
  * @swagger
@@ -123,7 +129,36 @@ userRouter.get("/:id", UserController.getUserById)
  *            
  *          
  */
-userRouter.get("/", UserController.getUsers)
+userRouter.get("/", userController.getUsers)
+
+/**
+ * @swagger
+ * /user/{id}/changeUserPassword:
+ *   patch:
+ *     summary: Updates user password
+ *     tags: [User]
+ *     requestBody:
+ *        content:
+ *          application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/ChangeUserPassword'
+ *                 
+ *     responses:
+ *       400:
+ *          description: bad request
+ *       500:
+ *          description: internal server error
+ *       201:
+ *         description: user password updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *            
+ *          
+ */
+
+userRouter.patch("/:id/changepassword", userController.changeUserPassword)
 
 export default userRouter
 

@@ -12,7 +12,10 @@ const UserModel = db.define(
         },
         password: {
             type: DataTypes.STRING,
-        }
+        },
+        employeeId: {
+            type: DataTypes.STRING,
+        },    
     },
     {
         freezeTableName: true,

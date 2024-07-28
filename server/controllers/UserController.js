@@ -1,10 +1,14 @@
+import { AuthException } from "../exceptions/AuthException.js";
 import { UserService } from "../services/UserService.js";
 
+
 export class UserController{
-    static userService = new UserService()
-    static createUser = async(req, res) => {
+    constructor(userService){
+        this.userService = userService
+    }
+    createUser = async(req, res) => {
         try{
-            await UserController.userService.createUser(req.body)
+            await this.userService.createUser(req.body)
              return res.json({
                 message: "User created"
             })
@@ -16,24 +20,29 @@ export class UserController{
         }
       };
       
-      static login = async (req, res) => {
+      login = async (req, res) => {
         try{
             const {email, password } = req.body
-           const userDetails = await UserController.userService.login(email, password)
-            res.json({
+           const userDetails = await this.userService.login(email, password)
+            return res.json({
                userDetails
             })
         }
         catch(err){
+            if(err instanceof AuthException){
+                res.status(err.statusCode).json({
+                    message: err.message
+                })
+            }
             res.status(500).json({
                 message: err.message
             })
         }
       };
       
-      static getUserById = async (req, res) => {
+      getUserById = async (req, res) => {
         try{
-            const user = await UserController.userService.getUserById(req.params.id)
+            const user = await this.userService.getUserById(req.params.id)
             res.json({
                 data: user
             })
@@ -45,9 +54,9 @@ export class UserController{
         }
       };
 
-      static getUsers = async(req, res) =>{
+      getUsers = async(req, res) =>{
         try{
-            const users = await UserController.userService.getUser(req)
+            const users = await this.userService.getUser(req)
             res.json({
                 data: users
             })
@@ -59,4 +68,14 @@ export class UserController{
         }
       }
       
+      changeUserPassword = async(req, res) =>{
+        try{
+            await this.userService.changeUserPassword(req)
+        }
+        catch(err){
+            res.status(err.statusCode || 500).json({
+                message: err.message || "Internal Server Error"
+            })
+        }
+      }
 }

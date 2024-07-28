@@ -2,14 +2,16 @@ import db from "../configs/Database.js";
 import { BadRequestException } from "../exceptions/BadRequestException.js";
 import { DuplicateException } from "../exceptions/DuplicateException.js";
 import { NotFoundException } from "../exceptions/NotFoundException.js";
-import { EmployeeService } from "../services/EmployeeService.js";
 
 export class EmployeeController{
-    static employeeService = new EmployeeService()
-    static createEmployee = async(req, res) => {
+    constructor(userService, employeeService){
+        this.userService = userService
+        this.employeeService = employeeService
+    }
+    createEmployee = async(req, res) => {
+    const transaction = await db.transaction()
         try{
-            const transaction = await db.transaction()
-            await EmployeeController.employeeService.createEmployee(req, res,transaction)
+            await this.employeeService.createEmployee(req, transaction)
             res.json({
                 message: "Employee created"
             })
@@ -38,9 +40,12 @@ export class EmployeeController{
         }
       };
       
-      static getEmployeeById = async (req, res) => {
+      getEmployeeById = async (req, res) => {
         try{
-            const employee = await EmployeeController.employeeService.getEmployeeById(req)
+            if(!id){
+                throw BadRequestException("id cannot be null")
+            }
+            const employee = await this.employeeService.getEmployeeById(req.params.id)
             res.json({
                 data: employee
             })
@@ -52,9 +57,9 @@ export class EmployeeController{
         }
       };
 
-      static getEmployees = async(req, res) =>{
+      getEmployees = async(req, res) =>{
         try{
-            const employees = await EmployeeController.employeeService.getEmployees()
+            const employees = await this.employeeService.getEmployees()
             res.json({
                 data: employees
             })
@@ -66,9 +71,9 @@ export class EmployeeController{
         }
       }
 
-      static updateEmployee = async (req, res) =>{
+      updateEmployee = async (req, res) =>{
         try{
-            const employee = await EmployeeController.employeeService.updateEmployeeById(req)
+            const employee = await this.employeeService.updateEmployeeById(req)
             // const logoFile = new File(req.file)
             // if (logoFile.isValidFile && logoFile.isInvalidSize()) {
             //   return res.status(400).json({
@@ -107,9 +112,9 @@ export class EmployeeController{
         }
       }
 
-      static updateEmployeeStatus = async(req, res) =>{
+      updateEmployeeStatus = async(req, res) =>{
         try{
-            await EmployeeController.employeeService.updateEmployeeStatus(req)
+            await this.employeeService.updateEmployeeStatus(req)
             res.json({
                 message: "employee status updated"
             })
@@ -136,9 +141,9 @@ export class EmployeeController{
         }
       }
 
-      static deleteEmployee = async (req, res) =>{
+      deleteEmployee = async (req, res) =>{
         try{
-            const employee = await EmployeeController.employeeService.deleteEmployeeById(req)
+            const employee = await this.employeeService.deleteEmployeeById(req)
             res.json({
                 message: "employee deleted"
             })
@@ -150,9 +155,9 @@ export class EmployeeController{
         }
       }
 
-      static uploadEmployeeProfilePicture = async(req, res) =>{
+      uploadEmployeeProfilePicture = async(req, res) =>{
         try{
-            await EmployeeController.employeeService.uploadEmployeeProfilePicture(req, res)
+            await this.employeeService.uploadEmployeeProfilePicture(req, res)
             return res.json({
                 message: "Profile picture uploaded"
             })

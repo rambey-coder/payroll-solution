@@ -11,12 +11,10 @@ import PositionAccessModel from './PositionAccessModel.js';
 import AccessModel from './AccessModel.js';
 
 UserModel.hasMany(EmployeeModel, {
-    foreignKey: 'userId',
     as: 'employees'
 });
 
 EmployeeModel.belongsTo(UserModel, {
-    foreignKey: 'userId',
     as: 'user'
 });
 
@@ -52,6 +50,7 @@ PositionAccessModel.belongsTo(AccessModel,
     {
     as: 'access'}
 )
+
 
 const models = {
     User: UserModel,

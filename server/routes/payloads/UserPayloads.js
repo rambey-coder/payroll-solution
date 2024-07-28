@@ -58,3 +58,15 @@
  *         password:
  *           type: string
  */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ChangeUserPassword:
+ *       type: object
+ *       properties:
+ *         password:
+ *           type: string
+ */
+

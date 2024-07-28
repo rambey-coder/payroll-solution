@@ -1,8 +1,16 @@
 import { Router } from "express";
 import { EmployeeController } from "../controllers/EmployeeController.js";
 import { Upload } from "../middlewares/File.js";
+import { UserService } from "../services/UserService.js";
+import { EmployeeService } from "../services/EmployeeService.js";
 
 const employeeRouter = Router()
+
+const userService = new UserService()
+const employeeService = new EmployeeService()
+userService.setEmployeeService(employeeService)
+employeeService.setUserService(userService)
+const employeeController = new EmployeeController(userService, employeeService)
 
 /**
  * @swagger
@@ -30,7 +38,7 @@ const employeeRouter = Router()
  *            
  *          
  */
-employeeRouter.post('/', Upload.single("profilePicture"), EmployeeController.createEmployee);
+employeeRouter.post('/', Upload.single("profilePicture"), employeeController.createEmployee);
 
 
 /**
@@ -61,7 +69,7 @@ employeeRouter.post('/', Upload.single("profilePicture"), EmployeeController.cre
  *            
  *          
  */
-employeeRouter.put('/:id', EmployeeController.updateEmployee);
+employeeRouter.put('/:id', employeeController.updateEmployee);
 
 
 /**
@@ -92,7 +100,7 @@ employeeRouter.put('/:id', EmployeeController.updateEmployee);
  *            
  *          
  */
-employeeRouter.patch('/status/:id', EmployeeController.updateEmployeeStatus);
+employeeRouter.patch('/status/:id', employeeController.updateEmployeeStatus);
 
 /**
  * @swagger
@@ -122,7 +130,7 @@ employeeRouter.patch('/status/:id', EmployeeController.updateEmployeeStatus);
  *            
  *          
  */
-employeeRouter.get("/:id", EmployeeController.getEmployeeById)
+employeeRouter.get("/:id", employeeController.getEmployeeById)
 
 /**
  * @swagger
@@ -152,7 +160,7 @@ employeeRouter.get("/:id", EmployeeController.getEmployeeById)
  *            
  *          
  */
-employeeRouter.get("/", EmployeeController.getEmployees)
+employeeRouter.get("/", employeeController.getEmployees)
 /**
  * @swagger
  * /employee/{id}/uploadProfilePicture:
@@ -179,7 +187,7 @@ employeeRouter.get("/", EmployeeController.getEmployees)
  *            
  *          
  */
-employeeRouter.patch("/:id/uploadProfilePicture", Upload.single("profilePicture"), EmployeeController.uploadEmployeeProfilePicture)
+employeeRouter.patch("/:id/uploadProfilePicture", Upload.single("profilePicture"), employeeController.uploadEmployeeProfilePicture)
 
 
 

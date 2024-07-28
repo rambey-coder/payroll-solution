@@ -24,14 +24,14 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  bodyParser.raw({
-    type: function () {
-      return true;
-    },
-    limit: '10mb',
-  })
-);
+// app.use(
+//   bodyParser.raw({
+//     type: function () {
+//       return true;
+//     },
+//     limit: '10mb',
+//   })
+// );
 app.use(cookieParser());
 app.use(express.json());
 

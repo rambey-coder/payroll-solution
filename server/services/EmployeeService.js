@@ -4,50 +4,74 @@ import { NotFoundException } from "../exceptions/NotFoundException.js";
 import PositionModel from "../models/PositionModel.js";
 import models from "../models/index.js";
 import { UserService } from "./UserService.js";
-import {File} from "../utils/File.js"
-
+import { File } from "../utils/File.js"
+import AccessModel from "../models/AccessModel.js";
+import PositionAccessModel from "../models/PositionAccessModel.js";
+import EmployeeModel from "../models/EmployeeModel.js";
+import { DuplicateException } from "../exceptions/DuplicateException.js";
+import UserModel from "../models/UserModel.js";
 
 export class EmployeeService {
-    userService = new UserService()
-    createEmployee = async (req, res, transaction) => {
+    setUserService(userService){
+        this.userService = userService
+    }
+    createEmployee = async (req, transaction) => {
+        const existingEmployee = await EmployeeModel.findOne({
+            where: {email: req.body.email, positionId: req.body.positionId}
+        })
+        if(existingEmployee){
+            throw new DuplicateException("Employee already exists in this position")
+        }
         const existingPosition = await models.Position.findOne({
             id: req.body.positionId
         })
         if (!existingPosition) {
             throw new BadRequestException("Position must exist before an employee can be added")
         }
-       if(req.file != undefined){
-        const profilePicture = new File(req.file)
-        if (profilePicture) {
-            if (profilePicture.isValidFile && profilePicture.isInvalidSize()) {
-                throw new BadRequestException(
-                    "The file is greater than 250kb"
-                )
-            }
+        if (req.file != undefined) {
+            const profilePicture = new File(req.file)
+            if (profilePicture) {
+                if (profilePicture.isValidFile && profilePicture.isInvalidSize()) {
+                    throw new BadRequestException(
+                        "The file is greater than 250kb"
+                    )
+                }
 
-            if (profilePicture.isValidFile && profilePicture.isInvalidType()) {
-                throw new BadRequestException(
-                    "The file extension is not supported"
-                )
+                if (profilePicture.isValidFile && profilePicture.isInvalidType()) {
+                    throw new BadRequestException(
+                        "The file extension is not supported"
+                    )
+                }
+                req.body.profilePicture = req.file.filename
             }
-            req.body.profilePicture = req.file.filename
         }
-       }
+      
+        const newEmployee = await models.Employee.create(req.body, { transaction })
         const newUser = {
             email: req.body.email,
             password: req.body.email,
+            employeeId: newEmployee.id
         }
-        await models.Employee.create(req.body, {transaction})
-        await EmployeeService.userService.createEmployee(newUser, transaction)
+        await this.userService.createUser(newUser, transaction)
     }
 
 
-    getEmployeeById = async (req) => {
-        return await models.Employee.findByPk(req.params.id, {
+    getEmployeeById = async (id) => {
+        return await models.Employee.findByPk(id, {
             include: {
                 model: PositionModel,
                 as: "position",
-                attributes: ["id", "title"]
+                attributes: ["id", "title"],
+                include :{
+                    model: PositionAccessModel,
+                    as: "positionAccess",
+                    attributes: ["id"],
+                    include:{
+                        model: AccessModel,
+                        as: "access",
+                        attributes:["accessName"]
+                    }
+                }
             }
         });
     };
@@ -58,6 +82,13 @@ export class EmployeeService {
                 model: PositionModel,
                 as: "position",
                 attributes: ["id", "title"]
+            }
+        },
+        {
+            include: {
+                model: UserModel,
+                as: "user",
+                attributes: ["id"]
             }
         })
     }
@@ -103,27 +134,28 @@ export class EmployeeService {
         if (!existingEmployee) {
             throw new BadRequestException("Position must exist before an employee can be added")
         }
-        if (req.file != undefined) {
-            const profilePicture = new File(req.file)
-            if (profilePicture.isValidFile && profilePicture.isInvalidSize()) {
-                throw new BadRequestException(
-                    "The file is greater than 250kb"
-                )
-            }
-
-            if (profilePicture.isValidFile && profilePicture.isInvalidType()) {
-                throw new BadRequestException(
-                    "The file extension is not supported"
-                )
-            }
-            req.body.profilePicture = req.file.filename
-            // await models.Employee.update({profilePicture},
-            //     {where:{id: req.params.id}}
-            // )
-            res.json({
-                message: "Employee profile picture uploaded"
-            })
+        if (!req.file || req.file == undefined) {
+            throw new BadRequestException("File cannot be empty")
         }
+        const profilePicture = new File(req.file)
+        if (profilePicture.isValidFile && profilePicture.isInvalidSize()) {
+            throw new BadRequestException(
+                "The file is greater than 250kb"
+            )
+        }
+
+        if (profilePicture.isValidFile && profilePicture.isInvalidType()) {
+            throw new BadRequestException(
+                "The file extension is not supported"
+            )
+        }
+        req.body.profilePicture = req.file.filename
+        // await models.Employee.update({profilePicture},
+        //     {where:{id: req.params.id}}
+        // )
+        res.json({
+            message: "Employee profile picture uploaded"
+        })
 
     }
 }
