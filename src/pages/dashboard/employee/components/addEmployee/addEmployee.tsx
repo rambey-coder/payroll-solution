@@ -67,11 +67,10 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
 
       reader.onloadend = () => {
         const result = reader.result as string;
-
-        form.setFieldValue("profilePicture", result);
       };
 
       reader.readAsDataURL(file);
+      form.setFieldValue("profilePicture", file);
     }
   };
   return (

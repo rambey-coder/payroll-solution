@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { PrimaryButton, TxtInput } from "../../../../components";
 import { useForm } from "@mantine/form";
 import { alert } from "../../../../utils";
+import { useOutletContext } from "react-router-dom";
+import { useChangePasswordMutation } from "../../../../store/auth";
 
 export const Password = () => {
+  const userDetailsString = sessionStorage.getItem("user_details");
+  const userDetails = userDetailsString ? JSON.parse(userDetailsString) : null;
+  const id = userDetails ? userDetails.id : null;
+
+  const [changePassword, { isLoading, isSuccess, isError }] =
+    useChangePasswordMutation();
+
+  console.log(isSuccess, isError);
+
+  const [setPageName] = useOutletContext<any>();
+  useEffect(() => {
+    setPageName("Password ");
+  }, []);
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -29,10 +44,11 @@ export const Password = () => {
 
         <form
           onSubmit={form.onSubmit(async (values) => {
+            const payload = { password: values.confirm_password };
             form.validate();
             const isValid = form.isValid();
             if (isValid) {
-              alert.success("Pending");
+              await changePassword({ id, payload });
             }
           })}>
           <div className="mb-4">
@@ -43,7 +59,7 @@ export const Password = () => {
               name="password"
               //   placeholder="example@mail.com"
               key={form.key("password")}
-              {...form.getInputProps("empasswordail")}
+              {...form.getInputProps("password")}
               required
             />
           </div>
@@ -55,12 +71,17 @@ export const Password = () => {
               name="confirm_password"
               //   placeholder="example@mail.com"
               key={form.key("confirm_password")}
-              {...form.getInputProps("empasswordail")}
+              {...form.getInputProps("confirm_password")}
               required
             />
           </div>
 
-          <PrimaryButton name="Save" type="submit" variant="outline" />
+          <PrimaryButton
+            loading={isLoading}
+            name="Save"
+            type="submit"
+            variant="outline"
+          />
         </form>
       </div>
     </div>

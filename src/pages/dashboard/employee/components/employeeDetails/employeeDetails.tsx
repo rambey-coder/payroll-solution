@@ -47,10 +47,23 @@ export const EmployeeDetails = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
+
+    console.log(file);
+
     if (file) {
       if (file.size > 204800) {
         alert.error("File size should not exceed 200KB");
         return;
+      }
+
+      try {
+        const response = await uploadProfilePicture({
+          id: id,
+          body: { profilePicture: file },
+        }).unwrap();
+        console.log("Profile picture uploaded:", response);
+      } catch (error) {
+        console.error("Failed to upload profile picture:", error);
       }
 
       const reader = new FileReader();
@@ -58,19 +71,19 @@ export const EmployeeDetails = () => {
       reader.onloadend = async () => {
         const base64Image = reader.result as string;
         setSelectedImage(base64Image);
-
-        try {
-          const response = await uploadProfilePicture({
-            id: id,
-            body: { image: base64Image },
-          }).unwrap();
-          console.log("Profile picture uploaded:", response);
-        } catch (error) {
-          console.error("Failed to upload profile picture:", error);
-        }
       };
 
       reader.readAsDataURL(file);
+
+      try {
+        const response = await uploadProfilePicture({
+          id: id,
+          body: { profilePicture: file },
+        }).unwrap();
+        console.log("Profile picture uploaded:", response);
+      } catch (error) {
+        console.error("Failed to upload profile picture:", error);
+      }
     }
   };
 

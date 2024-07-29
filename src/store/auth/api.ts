@@ -51,6 +51,13 @@ export const authApi = createApi({
         body,
       }),
     }),
+    changePassword: builder.mutation<any, any>({
+      query: ({ id, body }) => ({
+        url: `/user/${id}/changeUserPassword`,
+        method: "PATCH",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -60,4 +67,5 @@ export const {
   useGetProfileQuery,
   useGetAllUserQuery,
   useUploadProfilePictureMutation,
+  useChangePasswordMutation,
 } = authApi;
