@@ -9,6 +9,7 @@ import db from "../configs/Database.js";
 import { AuthException } from "../exceptions/AuthException.js";
 import UserModel from "../models/UserModel.js";
 import { where } from "sequelize";
+import { NotFoundException } from "../exceptions/NotFoundException.js";
 
 export class UserService {
     setEmployeeService(employeeService){
@@ -35,7 +36,7 @@ export class UserService {
         const user = await models.User.findOne({where:{email}});
         if (!user) {
             const msg = "User not found"
-            throw new Error(msg)
+            throw new NotFoundException(msg)
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -69,15 +70,8 @@ export class UserService {
     }
 
     getUserById = async (id) => {
-        const sqlQuery = `SELECT DISTINCT
-                          u.id AS userId,  u.email,  e.id AS employeeId,  e.positionId,  p.title AS positionTitle,
-                          pa.id AS positionAccessId, a.accessName AS accessName 
-                          FROM users u LEFT JOIN employee e ON u.employeeId = e.id LEFT JOIN position p ON e.positionId = p.id
-                          LEFT JOIN PositionAccess pa ON p.id = pa.positionId LEFT JOIN Access a ON pa.accessId = a.id
-                         where u.id=:userId;
-                          `
-      const user = await db.query(sqlQuery, {replacements: {userId: +id, type: db.QueryTypes.SELECT}
-      })
+        
+      const user = await UserModel.findByPk(id)
       return user
     };
 

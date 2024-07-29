@@ -42,7 +42,7 @@ export class EmployeeController{
       
       getEmployeeById = async (req, res) => {
         try{
-            if(!id){
+            if(!req.params.id){
                 throw BadRequestException("id cannot be null")
             }
             const employee = await this.employeeService.getEmployeeById(req.params.id)
