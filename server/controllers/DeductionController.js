@@ -58,7 +58,7 @@ export class DeductionController{
 
       static updateDeduction = async (req, res) =>{
         try{
-            const Deduction = await DeductionController.deductionService.updateDeductionById(req)
+            await DeductionController.deductionService.updateDeductionById(req)
             res.json({
                 message: "Deduction updated"
             })
@@ -72,7 +72,7 @@ export class DeductionController{
 
       static deleteDeduction = async (req, res) =>{
         try{
-            const Deduction = await DeductionController.deductionService.deleteDeductionById(req)
+            DeductionController.deductionService.deleteDeductionById(req)
             res.json({
                 message: "Deduction deleted"
             })

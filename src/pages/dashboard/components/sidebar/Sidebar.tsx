@@ -165,7 +165,7 @@ function LinksGroup({ icon: Icon, label, links, link }: GroupedLinkItem) {
         <div className="linksContainer">
           {links.map((link, index) => (
             <Link
-              className={"link"}
+              className={"link ml-7"}
               key={index}
               to={link.link}
               onClick={() => {

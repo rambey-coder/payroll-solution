@@ -52,11 +52,14 @@ export const authApi = createApi({
       }),
     }),
     changePassword: builder.mutation<any, any>({
-      query: ({ id, body }) => ({
-        url: `/user/${id}/changeUserPassword`,
-        method: "PATCH",
-        body,
-      }),
+      query: (body) => {
+        console.log(body.id, body)
+        return ({
+          url: `/user/${body.id}/changeUserPassword`,
+          method: "PATCH",
+          body,
+        })
+      }
     }),
   }),
 });

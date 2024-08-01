@@ -13,7 +13,6 @@ export const Password = () => {
   const [changePassword, { isLoading, isSuccess, isError }] =
     useChangePasswordMutation();
 
-  console.log(isSuccess, isError);
 
   const [setPageName] = useOutletContext<any>();
   useEffect(() => {
@@ -22,11 +21,17 @@ export const Password = () => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
+      currentPassword: "",
       password: "",
       confirm_password: "",
     },
 
     validate: {
+      currentPassword: (value) =>
+        value.length > 5
+          ? null
+          : "Password should contain at least 6 characters",
+
       password: (value) =>
         value.length > 5
           ? null
@@ -44,13 +49,27 @@ export const Password = () => {
 
         <form
           onSubmit={form.onSubmit(async (values) => {
-            const payload = { password: values.confirm_password };
+            const payload = { password: values.confirm_password, currentPassword: values.currentPassword };
             form.validate();
             const isValid = form.isValid();
             if (isValid) {
-              await changePassword({ id, payload });
+              console.log(payload)
+              const updatedValues = {id, ...payload}
+              await changePassword(updatedValues);
             }
           })}>
+             <div className="mb-4">
+            <TxtInput
+              label="Current Password"
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              //   placeholder="example@mail.com"
+              key={form.key("currentPassword")}
+              {...form.getInputProps("currentPassword")}
+              required
+            />
+          </div>
           <div className="mb-4">
             <TxtInput
               label="Password"
