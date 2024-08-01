@@ -71,6 +71,9 @@ export class UserController{
       changeUserPassword = async(req, res) =>{
         try{
             await this.userService.changeUserPassword(req)
+            return res.json({
+                message: "user password changed"
+            })
         }
         catch(err){
             res.status(err.statusCode || 500).json({

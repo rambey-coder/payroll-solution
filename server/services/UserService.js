@@ -12,16 +12,16 @@ import { where } from "sequelize";
 import { NotFoundException } from "../exceptions/NotFoundException.js";
 
 export class UserService {
-    setEmployeeService(employeeService){
+    setEmployeeService(employeeService) {
         this.employeeService = employeeService
     }
-    createUser = async (userData, transaction=null) => {
+    createUser = async (userData, transaction = null) => {
         const existingUser = await models.User.findOne({
-           where:{
-            email: userData.email
-           }
+            where: {
+                email: userData.email
+            }
         })
-        if(existingUser){
+        if (existingUser) {
             throw new DuplicateException("user already exists")
         }
         const hashedPassword = await bcrypt.hash(userData.password, 10);
@@ -29,11 +29,11 @@ export class UserService {
             ...userData,
             password: hashedPassword
         });
-        await user.save({transaction});
+        await user.save({ transaction });
     };
 
     login = async (email, password) => {
-        const user = await models.User.findOne({where:{email}});
+        const user = await models.User.findOne({ where: { email } });
         if (!user) {
             const msg = "User not found"
             throw new NotFoundException(msg)
@@ -44,11 +44,11 @@ export class UserService {
             const msg = "Invalid password"
             throw new BadRequestException(msg)
         }
-        if(await this.#userHasNoAccess(user)){
+        if (await this.#userHasNoAccess(user)) {
             throw new AuthException("Access denied")
         }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return {token, user}
+        return { token, user }
     }
 
     async #hashPassword(password) {
@@ -57,22 +57,21 @@ export class UserService {
             const hashedPassword = await bcrypt.hash(password, salt);
             return hashedPassword;
         } catch (error) {
-            logger.error("Error while hashing password", error.message)
-            throw new Error(message);
+            throw new Error(error.message);
         }
     }
 
-    getUser = async(req) =>{
+    getUser = async (req) => {
         const users = await models.User.findAll({
             attributes: ["id", "first_name", "last_name", "email", "phone"]
-    })
+        })
         return users
     }
 
     getUserById = async (id) => {
-        
-      const user = await UserModel.findByPk(id)
-      return user
+
+        const user = await UserModel.findByPk(id)
+        return user
     };
 
     updateUserById = async (userId, userData) => {
@@ -83,7 +82,7 @@ export class UserService {
         return await models.User.findByIdAndDelete(userId);
     };
 
-    async #userHasNoAccess(user){
+    async #userHasNoAccess(user) {
         const sqlQuery = `SELECT DISTINCT
                           u.id AS userId,  u.email,  e.id AS employeeId,  e.positionId,  p.title AS positionTitle,
                           pa.id AS positionAccessId, a.accessName AS accessName 
@@ -91,17 +90,30 @@ export class UserService {
                           LEFT JOIN PositionAccess pa ON p.id = pa.positionId LEFT JOIN Access a ON pa.accessId = a.id
                          where u.id=:userId;
                           `
-      const userData = (await db.query(sqlQuery, {replacements: {userId: user.id, type: db.QueryTypes.SELECT}})).flat()
-      return userData.every(data => !data.accessName)
+        const userData = (await db.query(sqlQuery, { replacements: { userId: user.id, type: db.QueryTypes.SELECT } })).flat()
+        return userData.every(data => !data.accessName)
     }
 
-   async changeUserPassword(req){
-        const existingUser = await UserModel.findOne({
-            where:{id: req.params.id}
-        })
-        if(!existingUser){
-            throw new BadRequestException("user not found")
+    async changeUserPassword(req) {
+        try {
+            const existingUser = await UserModel.findOne({
+                where: { id: req.params.id }
+            })
+            if (!existingUser) {
+                throw new BadRequestException("user not found")
+            }
+            const isPasswordValid = await bcrypt.compare(req.body.currentPassword, existingUser.password);
+            if (!isPasswordValid) {
+                throw new BadRequestException("Incorrect password")
+            }
+            if (await this.#hashPassword(req.body.password) == existingUser.password) {
+                throw new BadRequestException("Old password and new password cannot be the same")
+            }
+            await UserModel.findByIdAndUpdate({ password: this.#hashPassword(req.body.password) }, { where: { id: req.user.id } })
+
         }
-        await UserModel.findByIdAndUpdate({password:  this.#hashPassword(req.body.password)}, {where:{id: req.params.id}})
+        catch (err) {
+            throw new Error(err.message)
+        }
     }
 }

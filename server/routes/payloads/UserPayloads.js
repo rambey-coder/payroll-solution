@@ -66,6 +66,8 @@
  *     ChangeUserPassword:
  *       type: object
  *       properties:
+ *         currentPassword:
+ *           type: string
  *         password:
  *           type: string
  */

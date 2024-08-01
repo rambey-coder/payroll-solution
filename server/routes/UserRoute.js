@@ -158,7 +158,7 @@ userRouter.get("/", userController.getUsers)
  *          
  */
 
-userRouter.patch("/:id/changepassword", userController.changeUserPassword)
+userRouter.patch("/:id/changeUserPassword", userController.changeUserPassword)
 
 export default userRouter
 
