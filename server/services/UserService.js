@@ -33,22 +33,54 @@ export class UserService {
     };
 
     login = async (email, password) => {
-        const user = await models.User.findOne({ where: { email } });
-        if (!user) {
+        const sqlQuery = `SELECT DISTINCT
+        u.id AS userId, u.password, u.first_name, u.last_name,  u.phone, u.email,  e.id AS employeeId,  e.positionId,  p.title AS positionTitle,
+        pa.id AS positionAccessId, a.accessName AS accessName 
+        FROM users u LEFT JOIN employee e ON u.employeeId = e.id LEFT JOIN position p ON e.positionId = p.id
+        LEFT JOIN PositionAccess pa ON p.id = pa.positionId LEFT JOIN Access a ON pa.accessId = a.id
+       where u.email=:email;
+        `
+        const userData = (await db.query(sqlQuery, { replacements: { email, type: db.QueryTypes.SELECT } })).flat()
+
+        console.log(userData)
+
+        if (!userData || userData.length < 1) {
             const msg = "User not found"
             throw new NotFoundException(msg)
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, userData[0]?.password);
         if (!isPasswordValid) {
             const msg = "Invalid password"
             throw new BadRequestException(msg)
         }
-        if (await this.#userHasNoAccess(user)) {
-            throw new AuthException("Access denied")
+        const userPositionAndAccess = Array.from(
+            new Map(
+                userData.map(data => [
+                    `${data.accessName}_${data.positionId}`, // Create a unique key using accessName and positionId
+                    {
+                        accessName: data.accessName,
+                        position: {
+                            positionId: data.positionId,
+                            positionTitle: data.positionTitle,
+                        }
+                    }
+                ])
+            ).values() // Extract the values (without duplicates)
+        );
+        const user = {
+            id: userData[0].userId,
+            email: userData[0].email,
+            first_name: userData[0].first_name,
+            last_name: userData[0].last_name,
+            phone: userData[0].phone,
+            accesses: userPositionAndAccess.map(access => (access.accessName)),
+            positions: userPositionAndAccess.map(position => (position.position))
         }
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return { token, user }
+        const token = jwt.sign({ id: userData[0].userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        return {
+            token,  user
+        }
     }
 
     async #hashPassword(password) {

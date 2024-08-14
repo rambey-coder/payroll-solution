@@ -21,6 +21,8 @@
  *       properties:
  *         token:
  *           type: string
+ *         user:
+ *           type: User
  *
  */
 
@@ -58,6 +60,62 @@
  *         password:
  *           type: string
  */
+
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserDetails:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         email:
+ *           type: string
+ *         first_name:
+ *           type: string
+ *         last_name:
+ *           type: string
+ *         phone:
+ *           type: string
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Access:
+ *       type: array
+ *       properties:
+ *         accessName:
+ *           type: string
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserPositions:
+ *       type: array
+ *       properties:
+ *         position:
+ *           type: UserPosition
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserPosition:
+ *       type: object
+ *       properties:
+ *         positionId:
+ *           type: string
+ *         positionName:
+ *           type: string
+ */
+
 
 /**
  * @swagger
