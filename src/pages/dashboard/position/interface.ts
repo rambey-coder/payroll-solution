@@ -8,7 +8,7 @@ export interface IPosition {
   departmentId: string;
   title: string;
   description: string;
-  salary: number;
+  baseSalary: number;
   department: DepatmentData;
   createdAt: string;
 }
@@ -17,7 +17,7 @@ export interface PositionPayload {
   departmentId: string;
   title: string;
   description: string;
-  salary: number;
+  baseSalary: number;
 }
 
 export interface IPositionRes {

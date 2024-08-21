@@ -30,6 +30,12 @@ interface ThProps {
   onSort(): void;
 }
 
+type EmployeeTable = {
+  tableTitle: string;
+  reduceLength: boolean;
+  length?: number;
+};
+
 function Th({ children, reversed, sorted, onSort }: ThProps) {
   const Icon = sorted
     ? reversed
@@ -99,7 +105,11 @@ function sortData(
   );
 }
 
-export const EmployeeTable = () => {
+export const EmployeeTable: React.FC<EmployeeTable> = ({
+  tableTitle,
+  reduceLength,
+  length,
+}) => {
   const { data: allEmployee } = useGetAllEmployeeQuery();
   const data = allEmployee ? allEmployee.data : [];
 
@@ -109,7 +119,12 @@ export const EmployeeTable = () => {
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
   useEffect(() => {
-    setSortedData(data);
+    if (reduceLength) {
+      const firstTenItems = data.slice(0, length);
+      setSortedData(firstTenItems);
+    } else {
+      setSortedData(data);
+    }
   }, [data]);
 
   const setSorting = (field: keyof EmployeeData) => {
@@ -151,7 +166,7 @@ export const EmployeeTable = () => {
 
         <span className="capitalize">{`${row?.first_name} ${row?.last_name}`}</span>
       </Table.Td>
-      <Table.Td>{Number(row.salary).toLocaleString()}</Table.Td>
+      <Table.Td>{row.email}</Table.Td>
       <Table.Td>
         {row.active ? (
           <Badge color="green" variant="light">
@@ -188,7 +203,7 @@ export const EmployeeTable = () => {
   return (
     <ScrollArea>
       <Group className="justify-between mb-3">
-        <Text className="text-xl font-medium text-[#495057]">All Employee</Text>
+        <Text className="text-xl font-medium text-[#495057]">{tableTitle}</Text>
 
         <TextInput
           placeholder="Search by any field"
@@ -223,7 +238,7 @@ export const EmployeeTable = () => {
               sorted={sortBy === "salary"}
               reversed={reverseSortDirection}
               onSort={() => setSorting("salary")}>
-              Salary
+              Email
             </Th>
             <Th
               sorted={sortBy === "active"}

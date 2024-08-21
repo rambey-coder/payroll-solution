@@ -17,11 +17,24 @@ import {
   IconArrowDownRight,
 } from "@tabler/icons-react";
 import { RecentPayrollHistory, WorkHourStat } from "./components";
+import { useGetAllEmployeeQuery } from "../../../store/employee";
+import { useGetProfileQuery } from "../../../store/auth/api";
+import { EmployeeTable } from "../employee/components/table/employeeTable";
 
 export const Dashboard = () => {
   const [setPageName] = useOutletContext<any>();
 
   const user = JSON.parse(sessionStorage.getItem("user_details") || "{}");
+  const { data: employee } = useGetAllEmployeeQuery();
+  const { data: users } = useGetProfileQuery(user?.user?.id);
+
+  console.log("====================================");
+  console.log(user);
+  console.log("====================================");
+
+  console.log("====================================");
+  console.log(users);
+  console.log("====================================");
 
   const quickActionList = [
     {
@@ -31,7 +44,7 @@ export const Dashboard = () => {
     },
     {
       title: "Update Profile",
-      link: " /dashboard/settings",
+      link: "/settings/profile",
       icon: IconUserEdit,
     },
     {
@@ -39,11 +52,11 @@ export const Dashboard = () => {
       link: "/dashboard/payroll",
       icon: IconCalendarDollar,
     },
-    {
-      title: "View Request",
-      link: "",
-      icon: IconFileText,
-    },
+    // {
+    //   title: "View Request",
+    //   link: "",
+    //   icon: IconFileText,
+    // },
   ];
 
   const icons = {
@@ -54,10 +67,15 @@ export const Dashboard = () => {
   };
 
   const data = [
-    { title: "Total Employees", icon: "employee", value: "13,456", diff: 34 },
-    { title: "Total Salary", icon: "coin", value: "4,145", diff: -13 },
-    { title: "Total Hours", icon: "hours", value: "745", diff: 18 },
-    { title: "Total Leave Requests", icon: "leave", value: "188", diff: -30 },
+    {
+      title: "Total Employees",
+      icon: "employee",
+      value: employee?.data?.length,
+      diff: 34,
+    },
+    { title: "Total Salary", icon: "coin", value: "0", diff: -13 },
+    { title: "Total Hours", icon: "hours", value: "0", diff: 18 },
+    { title: "Total Leave Requests", icon: "leave", value: "0", diff: -30 },
   ] as const;
 
   useEffect(() => {
@@ -121,7 +139,6 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        <WorkHourStat />
       </div>
 
       {/* header end */}
@@ -155,7 +172,7 @@ export const Dashboard = () => {
 
       {/* recent payroll */}
       <div className="bg-white p-4 rounded-lg">
-        <RecentPayrollHistory />
+        <EmployeeTable tableTitle="Recent Employee" reduceLength={true} length={10}/>
       </div>
       {/* recent payroll end */}
     </div>

@@ -11,7 +11,7 @@ export const employeeApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: `${BaseDir.API_BASE_URL}` }),
   tagTypes: ["Employee"],
   endpoints: (builder) => ({
-    addEmployee: builder.mutation<IEmployeeRes, IEmployeePayLoad>({
+    addEmployee: builder.mutation<IEmployeeRes, any>({
       query: (body) => ({
         url: "/employee",
         method: "POST",

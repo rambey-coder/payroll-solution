@@ -51,8 +51,8 @@ const Sidebar: React.FC<Props> = ({ children, pageName }) => {
     },
     { link: "/dashboard/position", label: "Position", icon: IconUserCog },
     { link: "/dashboard/employee", label: "Employee", icon: IconUsers },
-    { link: "/dashboard/leave", label: "Leave", icon: IconCalendarEvent },
-    { link: "/dashboard/attendance", label: "Attendance", icon: IconUserCheck },
+    // { link: "/dashboard/leave", label: "Leave", icon: IconCalendarEvent },
+    // { link: "/dashboard/attendance", label: "Attendance", icon: IconUserCheck },
     { link: "/dashboard/payroll", label: "Payroll", icon: IconWallet },
     {
       link: "/dashboard/settings/profile",

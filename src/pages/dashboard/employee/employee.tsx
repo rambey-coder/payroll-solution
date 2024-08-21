@@ -77,7 +77,7 @@ export const Employee = () => {
       </SimpleGrid>
 
       <div className="bg-white p-4 rounded-lg mt-[3rem]">
-        <EmployeeTable />
+        <EmployeeTable tableTitle="All Employee" reduceLength={false} />
       </div>
     </div>
   );

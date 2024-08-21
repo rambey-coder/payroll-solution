@@ -6,6 +6,7 @@ import AddPosition from "./components/addPosition";
 import { useGetAllPositionQuery } from "../../../store/position";
 import { Table, Group, ActionIcon, rem } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
+import { DateTime } from "luxon";
 
 function Position() {
   const [setPageName] = useOutletContext<any>();
@@ -22,9 +23,11 @@ function Position() {
       <Table.Td>{item.department.departmentName}</Table.Td>
       <Table.Td>{item.title}</Table.Td>
 
-      <Table.Td>{item.salary || "--"}</Table.Td>
+      <Table.Td>{item.baseSalary || "--"}</Table.Td>
       <Table.Td>{item.description}</Table.Td>
-      <Table.Td>{item.createdAt}</Table.Td>
+      <Table.Td>
+        {DateTime.fromISO(item.createdAt).toFormat("MMM d, yyyy")}
+      </Table.Td>
 
       <Table.Td>
         <Group gap={0} justify="flex-end">

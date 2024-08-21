@@ -57,9 +57,12 @@ export const EmployeeDetails = () => {
       }
 
       try {
+        const formData = new FormData();
+        formData.append("file", file);
+
         const response = await uploadProfilePicture({
           id: id,
-          body: { profilePicture: file },
+          body: formData,
         }).unwrap();
         console.log("Profile picture uploaded:", response);
       } catch (error) {

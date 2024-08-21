@@ -38,7 +38,7 @@ const AddPosition: React.FC<Props> = ({ opened, close }) => {
       departmentId: "",
       description: "",
       title: "",
-      salary: 0,
+      baseSalary: null,
     },
 
     validate: {
@@ -55,11 +55,13 @@ const AddPosition: React.FC<Props> = ({ opened, close }) => {
         onSubmit={form.onSubmit(async (val) => {
           const updatedValues = {
             ...val,
-            salary: Number(val.salary),
+            baseSalary: Number(val.baseSalary),
           };
           form.validate();
           const isValid = form.isValid();
-          if (isValid) await addPosition(updatedValues);
+          if (isValid) {
+            await addPosition(updatedValues);
+          }
         })}>
         <SelectOption
           label="Department"
@@ -88,10 +90,10 @@ const AddPosition: React.FC<Props> = ({ opened, close }) => {
           <TextInput
             label="Salary"
             type="text"
-            name="salary"
-            id="salary"
-            key={form.key("salary")}
-            {...form.getInputProps("salary")}
+            name="baseSalary"
+            id="baseSalary"
+            key={form.key("baseSalary")}
+            {...form.getInputProps("baseSalary")}
           />
         </div>
         <div className="mb-4">

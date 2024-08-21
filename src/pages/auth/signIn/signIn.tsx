@@ -55,10 +55,13 @@ export const SignIn = () => {
         <form
           className="mt-4"
           onSubmit={form.onSubmit(async (values) => {
+            const trimmedEmail = values.email.trim();
+            form.setFieldValue("email", trimmedEmail);
+
             form.validate();
             const isValid = form.isValid();
             if (isValid) {
-              await login(values);
+              await login({ ...values, email: trimmedEmail });
             }
           })}>
           <div className="mb-4">
