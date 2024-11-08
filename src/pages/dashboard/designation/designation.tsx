@@ -6,6 +6,7 @@ import { AddDesignation } from "./components/addDesignation";
 import { Table, Group, ActionIcon, rem } from "@mantine/core";
 import { IconPencil, IconTrash } from "@tabler/icons-react";
 import { useGetAllDepartmentQuery } from "../../../store/designation";
+import { DateTime } from "luxon";
 
 export const Designation = () => {
   const [setPageName] = useOutletContext<any>();
@@ -22,8 +23,16 @@ export const Designation = () => {
     <Table.Tr key={item.id}>
       <Table.Td>{item.departmentName}</Table.Td>
 
-      <Table.Td>{(item.departmentDescription ? (item.departmentDescription.length > 70 ? item.departmentDescription.substring(0, 70)+"..." : item.departmentDescription) : "___" )}</Table.Td>
-      <Table.Td>{item.createdAt}</Table.Td>
+      <Table.Td>
+        {item.departmentDescription
+          ? item.departmentDescription.length > 70
+            ? item.departmentDescription.substring(0, 70) + "..."
+            : item.departmentDescription
+          : "___"}
+      </Table.Td>
+      <Table.Td>
+        {DateTime.fromISO(item.createdAt).toFormat("MMM d, yyyy")}
+      </Table.Td>
       <Table.Td>{0}</Table.Td>
 
       <Table.Td>

@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { PrimaryButton, TxtInput } from "../../../../components";
 import { useForm } from "@mantine/form";
 import { alert } from "../../../../utils";
+import { useOutletContext } from "react-router-dom";
+import { useChangePasswordMutation } from "../../../../store/auth";
 
 export const Password = () => {
+  const userDetailsString = sessionStorage.getItem("user_details");
+  const userDetails = userDetailsString ? JSON.parse(userDetailsString) : null;
+  const id = userDetails ? userDetails.id : null;
+
+  const [changePassword, { isLoading, isSuccess, isError }] =
+    useChangePasswordMutation();
+
+
+  const [setPageName] = useOutletContext<any>();
+  useEffect(() => {
+    setPageName("Password ");
+  }, []);
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
+      currentPassword: "",
       password: "",
       confirm_password: "",
     },
 
     validate: {
+      currentPassword: (value) =>
+        value.length > 5
+          ? null
+          : "Password should contain at least 6 characters",
+
       password: (value) =>
         value.length > 5
           ? null
@@ -29,12 +49,27 @@ export const Password = () => {
 
         <form
           onSubmit={form.onSubmit(async (values) => {
+            const payload = { password: values.confirm_password, currentPassword: values.currentPassword };
             form.validate();
             const isValid = form.isValid();
             if (isValid) {
-              alert.success("Pending");
+              console.log(payload)
+              const updatedValues = {id, ...payload}
+              await changePassword(updatedValues);
             }
           })}>
+             <div className="mb-4">
+            <TxtInput
+              label="Current Password"
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              //   placeholder="example@mail.com"
+              key={form.key("currentPassword")}
+              {...form.getInputProps("currentPassword")}
+              required
+            />
+          </div>
           <div className="mb-4">
             <TxtInput
               label="Password"
@@ -43,7 +78,7 @@ export const Password = () => {
               name="password"
               //   placeholder="example@mail.com"
               key={form.key("password")}
-              {...form.getInputProps("empasswordail")}
+              {...form.getInputProps("password")}
               required
             />
           </div>
@@ -55,12 +90,17 @@ export const Password = () => {
               name="confirm_password"
               //   placeholder="example@mail.com"
               key={form.key("confirm_password")}
-              {...form.getInputProps("empasswordail")}
+              {...form.getInputProps("confirm_password")}
               required
             />
           </div>
 
-          <PrimaryButton name="Save" type="submit" variant="outline" />
+          <PrimaryButton
+            loading={isLoading}
+            name="Save"
+            type="submit"
+            variant="outline"
+          />
         </form>
       </div>
     </div>

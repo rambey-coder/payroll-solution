@@ -43,14 +43,14 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
     initialValues: {
       first_name: "",
       role: "",
-      salary: "",
+      // salary: "",
       positionId: "",
       email: "",
       last_name: "",
       phone: "",
       address: "",
       active: false,
-      profilePicture: "",
+      profilePicture: null,
     },
   });
 
@@ -63,15 +63,7 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
   const handleFileChange = (event: any) => {
     const file = event.target?.files?.[0];
     if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        const result = reader.result as string;
-
-        form.setFieldValue("profilePicture", result);
-      };
-
-      reader.readAsDataURL(file);
+      form.setFieldValue("profilePicture", file);
     }
   };
   return (
@@ -89,16 +81,32 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
           const isValid = form.isValid();
 
           if (isValid) {
-            const payload = {
-              ...values,
-              salary: Number(values.salary),
-              active:
+            const formData = new FormData();
+            formData.append("first_name", values.first_name);
+            formData.append("role", values.role);
+            // formData.append("salary", values.salary);
+            formData.append("positionId", values.positionId);
+            formData.append("email", values.email);
+            formData.append("last_name", values.last_name);
+            formData.append("phone", values.phone);
+            formData.append("address", values.address);
+            formData.append(
+              "active",
+              String(
                 typeof values.active === "string"
                   ? values.active === "true"
-                  : values.active,
-            };
+                  : values.active
+              )
+            );
 
-            await addEmployee(payload);
+
+            if (values.profilePicture) {
+              formData.append("profilePicture", values.profilePicture);
+            } else {
+              formData.append("profilePicture", "null");
+            }
+
+            await addEmployee(formData);
           }
         })}>
         <div className="mb-3">
@@ -185,7 +193,7 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
             {...form.getInputProps("role")}
           />
         </div>
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <TxtInput
             label="Salary"
             type="text"
@@ -196,8 +204,8 @@ export const AddEmployee: React.FC<Props> = ({ opened, close }) => {
             key={form.key("salary")}
             {...form.getInputProps("salary")}
           />
-        </div>
-        <div className="mb-3 col-span-1 md:col-span-2">
+        </div> */}
+        <div className="mb-3">
           <SelectOption
             label="Status"
             name="active"

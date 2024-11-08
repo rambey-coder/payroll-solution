@@ -32,7 +32,7 @@
     "dayjs": "^1.11.11",
     "embla-carousel-react": "^8.0.2",
     "html2pdf.js": "^0.9.0",
-    "luxon": "^3.4.4",
+    "luxon": "^3.5.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
