@@ -13,6 +13,6 @@
  *           type: string
  *         descripion:
  *           type: bool
- *         salary:
+ *         baseSalary:
  *           type: integer
  */

@@ -22,7 +22,7 @@ import positionAccessRouter from './routes/PositionAccessRoute.js';
 dotenv.config();
 
 const app = express();
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(
 //   bodyParser.raw({
@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
 
-const whitelist = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://infopayroll-solution.netlify.app'];
+const whitelist = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://update-payroll.netlify.app'];
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const corsOptions = {
