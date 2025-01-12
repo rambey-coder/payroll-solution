@@ -23,14 +23,14 @@ const EmployeeChart = () => {
         bottom: 5,
       }}
     >
-      <CartesianGrid strokeDasharray="3 3" />
+      {/* <CartesianGrid strokeDasharray="3 3" /> */}
       <XAxis dataKey="name" tick={{ fontSize: 10, fontWeight: 'bold', fill: '#8884d8' }} 
      />
       <YAxis tick={{ fontSize: 10, fontWeight: 'bold', fill: '#8884d8' }}/>
       <Tooltip />
       {/* <Legend  wrapperStyle={{ fontSize: 10, fontWeight: 'bold', color: '#444' }}/> */}
-      <Bar dataKey="pv" fill="#8884d8" />
-      <Bar dataKey="uv" fill="#82ca9d" />
+      <Bar dataKey="pv" fill="#68a4f1" />
+      {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
     </BarChart>
   );
 };

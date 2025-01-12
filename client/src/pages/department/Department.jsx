@@ -5,7 +5,7 @@ import AddButton from '../../components/button/AddButton';
 import BackButton from '../../components/button/BackButton';
 
 const Department = () => {
-    const validationSchema = Yup.object({
+   const validationSchema = Yup.object({
         departmentName: Yup.string()
           .required('Name is required')
           .min(3, 'Name must be at least 3 characters'),
@@ -59,4 +59,4 @@ const Department = () => {
   )
 }
 
-export default Department
+export default Department 

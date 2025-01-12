@@ -5,6 +5,9 @@ import DashBoard from './pages/Dashboard'
 import DepartmentList from './pages/department/DepartmentList'
 import Department from './pages/department/Department'
 import PositionList from './pages/Position/PositionList'
+import Position from './pages/Position/Position'
+import EmployeeList from './pages/Employee/EmployeeList'
+import Employee from './pages/Employee/Employee'
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
          <Route element = {<DepartmentList />} path='/departments'/>
          <Route element= {<Department />} path='/department' />
          <Route element= {<PositionList />} path='/positions' />
+         <Route element= {<Position />} path='/position' />
+         <Route element= {<EmployeeList />} path='/employees' />
+         <Route element= {<Employee />} path='/employee' />
         </Route>
       </Routes>
      </Router>

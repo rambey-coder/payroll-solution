@@ -34,12 +34,12 @@
 
 /* Styling for .react-calendar__tile--active */
 .react-calendar__tile--active {
-  @apply bg-blue-600 text-white font-bold;
+  @apply bg-[#0C2D48] text-white font-bold;
 }
 
 /* Styling for navigation buttons */
 .react-calendar__navigation button {
-  @apply text-blue-700  font-bold px-2 py-1 rounded-md transition-all duration-300;
+  @apply text-[#0C2D48]  font-bold px-2 py-1 rounded-md transition-all duration-300;
 }
 
 /* Hover effect for navigation buttons */
@@ -49,4 +49,8 @@
 
 .input-text{
    @apply w-full border border-gray-400 rounded-md p-2
+}
+
+.select{
+  @apply w-full border border-gray-400 p-2 rounded-md bg-white text-gray-500
 }
