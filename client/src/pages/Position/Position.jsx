@@ -18,6 +18,7 @@ const Position = () => {
     const initialValues = {
         title: '',
         description: '',
+        baseSalary: 0
     };
 
     // Submit handler
@@ -28,7 +29,7 @@ const Position = () => {
     return (
         <div className='w-1/2 flex items-center flex-col mx-auto bg-white h-[300px] rounded-md shadow-md shadow-gray-400'>
             <div className='p-3 w-full bg-primary text-white font-semibold'>
-                Add Department
+                Add Position
             </div>
             <Formik
                 initialValues={initialValues}
@@ -38,6 +39,7 @@ const Position = () => {
                 {({ isSubmitting }) => (
                     <Form className='w-full mb-3 mt-4 bg-white p-3 px-5 flex flex-col gap-3 flex-wrap'>
                         <div className='w-full'>
+                        <label className='text-sm ' htmlFor="department">Department</label>
                             <Field as="select" name="departmentId" id="department" className="select">
                                 <option value="" label="Select a department" />
                                 <option value="engineering" label="Engineering" />
@@ -56,9 +58,9 @@ const Position = () => {
                             <ErrorMessage name="description" component="div" style={{ color: 'red' }} />
                         </div>
                         <div className='w-full'>
-                            <label className='text-sm ' htmlFor="salary">Salary</label>
-                            <Field type="text" placeholder="Salary" id="salary" name="salary" className='input-text' />
-                            <ErrorMessage name="salary" component="div" style={{ color: 'red' }} />
+                            <label className='text-sm ' htmlFor="salary">Base Salary</label>
+                            <Field type="text" placeholder="Base Salary" id="baseSalary" name="baseSalary" className='input-text' />
+                            <ErrorMessage name="baseSalary" component="div" style={{ color: 'red' }} />
                         </div>
                         <div className='mt-3 flex items-center gap-2'>
                             <AddButton />

@@ -3,7 +3,7 @@ import { SaveButton } from '../button/SaveButton'
 import BackButton from '../button/BackButton'
 import { useState } from 'react'
 
-const Tab = ({ tabs }) => {
+const Tab = ({ tabs, bottomRightButton }) => {
     const [activeTab, setActiveTab] = useState(tabs[0].name)
     const tabWidth = 100 / (tabs.length)
     return (
@@ -20,10 +20,13 @@ const Tab = ({ tabs }) => {
              <div className='w-full h-[70%] p-4'>
                  {tabs.find(t => t.name == activeTab)?.component}        
             </div>
-            <div className='flex gap-3 mb-6 p-4 mt-4 border-t border-gray-300'>
+           <div className='w-full flex justify-between border-t border-gray-300 mb-6 p-4 mt-4'>
+           <div className='flex gap-3  '>
                 <SaveButton />
                 <BackButton />
             </div>
+            {bottomRightButton}
+           </div>
         </div>
     )
 }
